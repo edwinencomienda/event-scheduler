@@ -14,12 +14,18 @@ class UserController extends Controller
         $this->user = $user;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $users = $this->user->with([
             'course',
             'subjects',
-        ])->get();
+        ]);
+
+        if ($request->has('role')) {
+            $users->where('role', $request->get('role'));
+        }
+
+        $users = $users->get();
         return response()->json($users);
     }
 

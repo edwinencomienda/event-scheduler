@@ -6,8 +6,14 @@
  */
 
 require('./bootstrap');
-
 window.Vue = require('vue');
+import VueRouter from 'vue-router'
+import { router } from './routes'
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
+ 
+Vue.use(Vuetify)
+Vue.use(VueRouter)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -15,8 +21,10 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+import App from './views/App'
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    components: { App },
+    router,
 });
