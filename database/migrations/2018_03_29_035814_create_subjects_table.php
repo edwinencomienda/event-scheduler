@@ -21,9 +21,10 @@ class CreateSubjectsTable extends Migration
             $table->time('time_end');
             $table->string('day_code');
             $table->string('room')->nullable();
-            $table->string('section')->nullable();
             $table->boolean('is_lab');
             $table->float('units');
+            $table->unsignedInteger('section_id')->index();
+            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
             $table->unsignedInteger('instructor_id')->index();
             $table->foreign('instructor_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

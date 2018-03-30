@@ -21,6 +21,8 @@ class CreateUserSubjectsTable extends Migration
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
             $table->unsignedInteger('semester_id')->index();
             $table->foreign('semester_id')->references('id')->on('semesters')->onDelete('cascade');
+            $table->unsignedInteger('section_id')->index();
+            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
             $table->timestamps();
         });
     }

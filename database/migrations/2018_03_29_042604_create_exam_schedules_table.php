@@ -20,8 +20,8 @@ class CreateExamSchedulesTable extends Migration
             $table->date('date');
             $table->time('time_start');
             $table->time('time_end');
-            $table->unsignedInteger('semester_id')->index();
-            $table->foreign('semester_id')->references('id')->on('semesters')->onDelete('cascade');
+            $table->unsignedInteger('proctor_id')->index();
+            $table->foreign('proctor_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
