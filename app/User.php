@@ -28,6 +28,8 @@ class User extends Authenticatable
         'status'
     ];
 
+    protected $appends = ['exam_schedules'];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -36,4 +38,21 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class, 'course_id');
+    }
+
+    public function subjects()
+    {
+        return $this->hasMany(UserSubject::class, 'user_id');
+    }
+
+    public function getExamSchedulesAttribute()
+    {
+        $subjectIds = collect($this->subjects()->get())->pluck('subject_id');
+        return ExamSchedule::whereIn('subject_id', $subjectIds)
+        ->get();
+    }
 }

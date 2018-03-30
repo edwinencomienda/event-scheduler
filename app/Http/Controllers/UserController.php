@@ -7,6 +7,22 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
+    private $user;
+
+    public function __construct(user $user) {
+        $this->user = $user;
+    }
+
+    public function index()
+    {
+        $users = $this->user->with([
+            'course',
+            'subjects',
+        ])->get();
+        return response()->json($users);
+    }
+
     public function register(Request $request)
     {
         $this->validate($request, [
@@ -39,5 +55,12 @@ class UserController extends Controller
         } else {
             return response()->json('error.', 500);
         }
+    }
+
+    public function show(User $user)
+    {
+        $user->subjects;
+        $user->course;
+        return response()->json($user, 200);
     }
 }

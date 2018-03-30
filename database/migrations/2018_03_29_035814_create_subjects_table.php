@@ -20,7 +20,7 @@ class CreateSubjectsTable extends Migration
             $table->time('time_start');
             $table->time('time_end');
             $table->string('day_code');
-            $table->string('room')->nullable();
+            $table->string('room_id')->nullable();
             $table->boolean('is_lab');
             $table->float('units');
             $table->unsignedInteger('section_id')->index();

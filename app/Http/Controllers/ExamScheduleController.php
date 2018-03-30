@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\ExamSchedule;
 use Illuminate\Http\Request;
+use App\Rules\ExamScheduleIsAvailable;
+use App\Http\Requests\ExamSchedule\StoreRequest;
 
 class ExamScheduleController extends Controller
 {
@@ -13,23 +15,19 @@ class ExamScheduleController extends Controller
         $this->examSchedule = $examSchedule;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json($this->examSchedule->all());
+        $examSchedules = $this->examSchedule->with([
+            'subject',
+            'proctor',
+            'room'
+        ])->get();
+        return response()->json($examSchedules);
     }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $this->validate($request, [
-            'subject_id' => 'required|exists:subjects,id',
-            'date' => 'required|date',
-            'time_start' => 'required|date_format:H:i',
-            'time_end' => 'required|date_format:H:i',
-            'proctor_id' => 'required|exists:users,id'
-        ]);
-        
         $examSchedule = $this->examSchedule->firstOrCreate($request->all());
-
         return response()->json($examSchedule);
     }
 

@@ -50,7 +50,8 @@ class SubjectController extends Controller
             'is_lab' => 'required',
             'units' => 'required',
             'section_id' => 'required|exists:sections,id',
-            'instructor_id' => 'required|exists:users,id'
+            'instructor_id' => 'required|exists:users,id',
+            'room_id' => 'required|exists:rooms,id'
         ]);
         
         $subject->update($request->all());
