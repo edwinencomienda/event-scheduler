@@ -50280,24 +50280,75 @@ var render = function() {
       ),
       _vm._v(" "),
       _c(
-        "v-btn",
+        "v-speed-dial",
         {
           attrs: {
-            fab: "",
-            bottom: "",
-            right: "",
-            color: "pink",
-            dark: "",
-            fixed: ""
+            fixed: "",
+            top: _vm.top,
+            bottom: _vm.bottom,
+            right: _vm.right,
+            left: _vm.left,
+            direction: _vm.direction,
+            "open-on-hover": _vm.hover,
+            transition: _vm.transition
           },
-          on: {
-            click: function($event) {
-              $event.stopPropagation()
-              _vm.dialog = !_vm.dialog
-            }
+          model: {
+            value: _vm.fab,
+            callback: function($$v) {
+              _vm.fab = $$v
+            },
+            expression: "fab"
           }
         },
-        [_c("v-icon", [_vm._v("add")])],
+        [
+          _c(
+            "v-btn",
+            {
+              attrs: {
+                slot: "activator",
+                color: "blue darken-2",
+                dark: "",
+                fab: "",
+                hover: ""
+              },
+              slot: "activator",
+              model: {
+                value: _vm.fab,
+                callback: function($$v) {
+                  _vm.fab = $$v
+                },
+                expression: "fab"
+              }
+            },
+            [
+              _c("v-icon", [_vm._v("account_circle")]),
+              _vm._v(" "),
+              _c("v-icon", [_vm._v("close")])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            { attrs: { fab: "", dark: "", small: "", color: "green" } },
+            [_c("v-icon", [_vm._v("edit")])],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            { attrs: { fab: "", dark: "", small: "", color: "indigo" } },
+            [_c("v-icon", [_vm._v("add")])],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            { attrs: { fab: "", dark: "", small: "", color: "red" } },
+            [_c("v-icon", [_vm._v("delete")])],
+            1
+          )
+        ],
         1
       ),
       _vm._v(" "),
@@ -69047,13 +69098,71 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       dialog: false,
       drawer: null,
-      items: [{ icon: 'apps', text: 'Dashboard', link: '/dashboard' }, { icon: 'history', text: 'Students', link: '/students' }, { icon: 'history', text: 'Instructors', link: '/instructors' }, { icon: 'history', text: 'Deans', link: '/deans' }, { icon: 'history', text: 'Activities', link: '/activities' }, { icon: 'history', text: 'Users', link: '/users' }, { icon: 'history', text: 'Requests', link: '/requests' }, { icon: 'settings', text: 'Settings', link: '/settings' }]
+      items: [{ icon: 'apps', text: 'Dashboard', link: '/dashboard' }, { icon: 'people', text: 'Students', link: '/students' }, { icon: 'people', text: 'Instructors', link: '/instructors' }, { icon: 'supervisor_account', text: 'Deans', link: '/deans' }, { icon: 'announcement', text: 'Activities', link: '/activities' }, { icon: 'account_circle', text: 'Users', link: '/users' }, { icon: 'history', text: 'Requests', link: '/requests' }, { icon: 'settings', text: 'Settings', link: '/settings' }],
+      // speed dial
+      direction: 'top',
+      fab: false,
+      fling: false,
+      hover: false,
+      tabs: null,
+      top: false,
+      right: true,
+      bottom: true,
+      left: false,
+      transition: 'slide-y-reverse-transition'
     };
   },
   props: {
@@ -70042,9 +70151,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -70055,7 +70161,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         align: 'left',
         sortable: false,
         value: 'name'
-      }, { text: 'Gender', value: 'gender' }, { text: 'Email', value: 'email' }, { text: 'Course', value: 'course' }, { text: 'Year Level', value: 'year_level' }, { text: 'Status', value: 'status' }],
+      }, { text: 'Gender', value: 'gender' }, { text: 'Email', value: 'email' }],
       items: []
     };
   },
@@ -70160,13 +70266,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(props.item.gender))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(props.item.email))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(props.item.course.name))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(props.item.year_level))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(props.item.status))])
+                      _c("td", [_vm._v(_vm._s(props.item.email))])
                     ]
                   }
                 }
@@ -70306,6 +70406,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -70316,7 +70418,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         align: 'left',
         sortable: false,
         value: 'name'
-      }, { text: 'Gender', value: 'gender' }, { text: 'Email', value: 'email' }, { text: 'Course', value: 'course' }, { text: 'Year Level', value: 'year_level' }, { text: 'Status', value: 'status' }],
+      }, { text: 'Gender', value: 'gender' }, { text: 'Email', value: 'email' }, { text: 'Course', value: 'course' }, { text: 'Year Level', value: 'year_level' }, { text: 'Status', value: 'status' }, { text: 'Status', value: 'role' }, { text: 'Active', value: 'active' }],
       items: []
     };
   },
@@ -70427,7 +70529,11 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(props.item.year_level))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(props.item.status))])
+                      _c("td", [_vm._v(_vm._s(props.item.status))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(props.item.role))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(props.item.active))])
                     ]
                   }
                 }
@@ -70564,9 +70670,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -70577,7 +70680,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         align: 'left',
         sortable: false,
         value: 'name'
-      }, { text: 'Gender', value: 'gender' }, { text: 'Email', value: 'email' }, { text: 'Course', value: 'course' }, { text: 'Year Level', value: 'year_level' }, { text: 'Status', value: 'status' }],
+      }, { text: 'Gender', value: 'gender' }, { text: 'Email', value: 'email' }],
       items: []
     };
   },
@@ -70682,13 +70785,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(props.item.gender))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(props.item.email))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(props.item.course.name))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(props.item.year_level))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(props.item.status))])
+                      _c("td", [_vm._v(_vm._s(props.item.email))])
                     ]
                   }
                 }

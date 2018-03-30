@@ -24,6 +24,8 @@
         <td>{{ props.item.course.name }}</td>
         <td>{{ props.item.year_level }}</td>
         <td>{{ props.item.status }}</td>
+        <td>{{ props.item.role }}</td>
+        <td>{{ props.item.active }}</td>
       </template>
       <v-alert slot="no-results" :value="true" color="error" icon="warning">
         Your search for "{{ search }}" found no results.
@@ -49,7 +51,9 @@
           { text: 'Email', value: 'email' },
           { text: 'Course', value: 'course' },
           { text: 'Year Level', value: 'year_level' },
-          { text: 'Status', value: 'status' }
+          { text: 'Status', value: 'status' },
+          { text: 'Status', value: 'role' },
+          { text: 'Active', value: 'active' }
         ],
         items: []
       }

@@ -21,9 +21,6 @@
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.gender }}</td>
         <td>{{ props.item.email }}</td>
-        <td>{{ props.item.course.name }}</td>
-        <td>{{ props.item.year_level }}</td>
-        <td>{{ props.item.status }}</td>
       </template>
       <v-alert slot="no-results" :value="true" color="error" icon="warning">
         Your search for "{{ search }}" found no results.
@@ -47,9 +44,6 @@
           },
           { text: 'Gender', value: 'gender' },
           { text: 'Email', value: 'email' },
-          { text: 'Course', value: 'course' },
-          { text: 'Year Level', value: 'year_level' },
-          { text: 'Status', value: 'status' }
         ],
         items: []
       }
