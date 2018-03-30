@@ -26,3 +26,4 @@ Route::apiResource('semester', 'SemesterController');
 Route::apiResource('section', 'SectionController');
 Route::apiResource('subject', 'SubjectController');
 Route::apiResource('exam-schedule', 'ExamScheduleController');
+Route::apiResource('user-subject', 'UserSubjectController');

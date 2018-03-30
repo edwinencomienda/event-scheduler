@@ -43,7 +43,7 @@ class ExamScheduleController extends Controller
             'proctor_id' => 'required|exists:users,id'
         ]);
         
-        $examSchedule->update($request->only(['examSchedule', 'school_year']));
+        $examSchedule->update($request->all());
 
         return response()->json($examSchedule);
     }
