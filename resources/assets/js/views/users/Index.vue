@@ -16,12 +16,13 @@
       :headers="headers"
       :items="items"
       :search="search"
+      :expand="true"
     >
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.gender }}</td>
         <td>{{ props.item.email }}</td>
-        <td>{{ props.item.course.name }}</td>
+        <td>{{ props.item.course && props.item.course.name }}</td>
         <td>{{ props.item.year_level }}</td>
         <td>{{ props.item.status }}</td>
         <td>{{ props.item.role }}</td>
@@ -52,7 +53,7 @@
           { text: 'Course', value: 'course' },
           { text: 'Year Level', value: 'year_level' },
           { text: 'Status', value: 'status' },
-          { text: 'Status', value: 'role' },
+          { text: 'Role', value: 'role' },
           { text: 'Active', value: 'active' }
         ],
         items: []

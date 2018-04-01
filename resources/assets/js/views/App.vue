@@ -82,8 +82,8 @@
       </v-btn>
     </v-toolbar>
     <v-content>
-      <v-container fluid fill-height>
-        <v-layout justify-center>
+      <v-container fill-height>
+        <v-layout>
             <!-- content goes here  -->
             <router-view class="mt-5"></router-view>
             <!-- end content  -->

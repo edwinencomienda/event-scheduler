@@ -16,9 +16,6 @@ class AlterTableSubjectsExamSchedulesAddColumnRoomId extends Migration
         Schema::table('exam_schedules', function (Blueprint $table) {
             $table->integer('room_id')->nullable();
         });
-        Schema::table('subjects', function (Blueprint $table) {
-            $table->integer('room_id')->nullable();
-        });
     }
 
     /**

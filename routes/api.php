@@ -29,3 +29,13 @@ Route::apiResource('exam-schedule', 'ExamScheduleController');
 Route::apiResource('user-subject', 'UserSubjectController');
 Route::apiResource('user', 'UserController');
 Route::apiResource('make-up-class', 'MakeUpClassController');
+Route::apiResource('activity', 'MakeUpClassController');
+
+Route::group(['prefix' => 'file'], function () {
+    Route::get('download', 'FileController@export');
+    Route::post('import/students', 'FileController@importStudents');
+});
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::post('approve/user-request', 'AdminController@approveUserRequest');
+});

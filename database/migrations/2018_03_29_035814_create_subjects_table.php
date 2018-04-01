@@ -19,13 +19,13 @@ class CreateSubjectsTable extends Migration
             $table->longText('description')->nullalbe();
             $table->time('time_start');
             $table->time('time_end');
-            $table->string('day_code');
+            $table->string('day_code')->nullable();
             $table->string('room_id')->nullable();
             $table->boolean('is_lab');
             $table->float('units');
-            $table->unsignedInteger('section_id')->index();
+            $table->unsignedInteger('section_id')->index()->nullable();
             $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
-            $table->unsignedInteger('instructor_id')->index();
+            $table->unsignedInteger('instructor_id')->index()->nullable();
             $table->foreign('instructor_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

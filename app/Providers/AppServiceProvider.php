@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         User::observe(UserObserver::class);
-        Section::observe(SectionObserver::class);
+        // Section::observe(SectionObserver::class);
     }
 
     /**
