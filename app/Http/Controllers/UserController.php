@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -20,6 +21,10 @@ class UserController extends Controller
             'course',
             'subjects',
         ]);
+
+        if ($request->has('inactive')) {
+            $users->where('active', 0);
+        }
 
         if ($request->has('role')) {
             $users->where('role', $request->get('role'));
@@ -68,5 +73,47 @@ class UserController extends Controller
         $user->subjects;
         $user->course;
         return response()->json($user, 200);
+    }
+
+    public function login(Request $request)
+    {
+        $email = $request->get('email');
+        $password = $request->get('password');
+
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            return response()->json('email and password is incorrect.', 404);
+        }
+
+        if (Hash::check($password, $user->password)) {
+            // The passwords match...
+            return response()->json($user, 200);
+        } else {
+            return response()->json('password not match.', 404);
+        }
+    }
+
+    public function changePassword(Request $request)
+    {
+        $email = $request->get('email');
+        $old_password = $request->get('old_password');
+        $new_password = $request->get('new_password');
+
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            return response()->json('account not found.', 404);
+        }
+
+        if (Hash::check($old_password, $user->password)) {
+            // The passwords match...
+            $user->update([
+                'password' => bcrypt($new_password)
+            ]);
+            return response()->json($user, 200);
+        } else {
+            return response()->json('old password not match.', 404);
+        }
     }
 }

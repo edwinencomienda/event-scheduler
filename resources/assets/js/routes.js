@@ -5,6 +5,9 @@ import InstructorsIndex from './views/instructors/Index'
 import UsersIndex from './views/users/Index'
 import DeansIndex from './views/deans/Index'
 import SettingsIndex from './views/settings/Index'
+import RequestsIndex from './views/requests/Index'
+import ActivitiesIndex from './views/activities/Index'
+import ExamSchedulesIndex from './views/exam-schedules/Index'
 
 export const router = new VueRouter({
   mode: 'history',
@@ -39,6 +42,21 @@ export const router = new VueRouter({
         path: '/settings',
         name: 'settings',
         component: SettingsIndex
+      },
+      {
+        path: '/requests',
+        name: 'requests',
+        component: RequestsIndex
+      },
+      {
+        path: '/activities',
+        name: 'activities',
+        component: ActivitiesIndex
+      },
+      {
+        path: '/exam-schedules',
+        name: 'exam-schedules',
+        component: ExamSchedulesIndex
       }
   ],
 })

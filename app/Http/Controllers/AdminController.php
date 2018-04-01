@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -18,9 +19,10 @@ class AdminController extends Controller
             'user_id' => 'required|exists:users,id'
         ]); 
 
-        $this->user->find($request->get('user_id'))
-        ->update([
-            'active' => true
-        ]);
+        $user = $this->user->find($request->get('user_id'));
+        $user->active = true;
+        $user->save();
+
+        return $user;
     }
 }

@@ -77,9 +77,14 @@
         <span class="hidden-sm-and-down">Event Sheduler</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>apps</v-icon>
-      </v-btn>
+      <v-menu offset-y>
+          <v-icon slot="activator">more_vert</v-icon>
+          <v-list>
+            <v-list-tile>
+              <v-list-tile-title>Logout</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
     </v-toolbar>
     <v-content>
       <v-container fill-height>
@@ -101,53 +106,7 @@
     >
       <v-icon>add</v-icon>
     </v-btn> -->
-    <v-speed-dial
-      fixed
-      v-model="fab"
-      :top="top"
-      :bottom="bottom"
-      :right="right"
-      :left="left"
-      :direction="direction"
-      :open-on-hover="hover"
-      :transition="transition"
-    >
-      <v-btn
-        slot="activator"
-        color="blue darken-2"
-        dark
-        fab
-        hover
-        v-model="fab"
-      >
-        <v-icon>account_circle</v-icon>
-        <v-icon>close</v-icon>
-      </v-btn>
-      <v-btn
-        fab
-        dark
-        small
-        color="green"
-      >
-        <v-icon>edit</v-icon>
-      </v-btn>
-      <v-btn
-        fab
-        dark
-        small
-        color="indigo"
-      >
-        <v-icon>add</v-icon>
-      </v-btn>
-      <v-btn
-        fab
-        dark
-        small
-        color="red"
-      >
-        <v-icon>delete</v-icon>
-      </v-btn>
-    </v-speed-dial>
+
     <v-dialog v-model="dialog" width="800px">
       <v-card>
         <v-card-title
@@ -227,6 +186,7 @@
         { icon: 'announcement', text: 'Activities', link: '/activities' },
         { icon: 'account_circle', text: 'Users', link: '/users' },
         { icon: 'history', text: 'Requests', link: '/requests' },
+        { icon: 'history', text: 'Exam Schedules', link: '/exam-schedules' },
         { icon: 'settings', text: 'Settings', link: '/settings' }
       ],
       // speed dial

@@ -18,6 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'auth'], function () {
+    Route::match(['get', 'post'], 'login', 'UserController@login');
+    Route::match(['get', 'post'], 'change-password', 'UserController@changePassword');
     Route::post('register', 'UserController@register');
 });
 
@@ -29,7 +31,8 @@ Route::apiResource('exam-schedule', 'ExamScheduleController');
 Route::apiResource('user-subject', 'UserSubjectController');
 Route::apiResource('user', 'UserController');
 Route::apiResource('make-up-class', 'MakeUpClassController');
-Route::apiResource('activity', 'MakeUpClassController');
+Route::apiResource('activity', 'ActivityController');
+Route::apiResource('room', 'RoomController');
 
 Route::group(['prefix' => 'file'], function () {
     Route::get('download', 'FileController@export');

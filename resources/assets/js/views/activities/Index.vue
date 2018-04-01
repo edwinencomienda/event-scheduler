@@ -2,7 +2,7 @@
 <div style="width:100%;">
   <v-card>
     <v-card-title>
-      Users
+      Activities
       <v-spacer></v-spacer>
       <v-text-field
         append-icon="search"
@@ -16,16 +16,10 @@
       :headers="headers"
       :items="items"
       :search="search"
-      :expand="true"
     >
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
-        <td>{{ props.item.gender }}</td>
-        <td>{{ props.item.email }}</td>
-        <td>{{ props.item.course && props.item.course.name }}</td>
-        <td>{{ props.item.year_level }}</td>
-        <td>{{ props.item.status }}</td>
-        <td>{{ props.item.role }}</td>
+        <td>{{ props.item.date }}</td>
       </template>
       <v-alert slot="no-results" :value="true" color="error" icon="warning">
         Your search for "{{ search }}" found no results.
@@ -41,18 +35,8 @@
       return {
         search: '',
         headers: [
-          {
-            text: 'Name',
-            align: 'left',
-            sortable: false,
-            value: 'name'
-          },
-          { text: 'Gender', value: 'gender' },
-          { text: 'Email', value: 'email' },
-          { text: 'Course', value: 'course' },
-          { text: 'Year Level', value: 'year_level' },
-          { text: 'Status', value: 'status' },
-          { text: 'Role', value: 'role' }
+          { text: 'Name', value: 'name' },
+          { text: 'Date', value: 'date' },
         ],
         items: []
       }
@@ -63,7 +47,7 @@
     methods: {
       async getItems () {
         try {
-          const response = await axios.get('/api/user')
+          const response = await axios.get('/api/activity')
           this.items = response.data
         } catch (error) {
           // fails
