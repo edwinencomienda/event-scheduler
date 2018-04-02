@@ -23,9 +23,8 @@ class ActivityController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string',
-            'date' => 'required|date',
-            'time_start' => 'nullable|date_format:H:i',
-            'time_end' => 'nullable|date_format:H:i',
+            'date_from' => 'required|date',
+            'date_to' => 'required|date',
             'course_id' => 'nullable|exists:courses,id'
         ]);
         
@@ -38,9 +37,8 @@ class ActivityController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string',
-            'date' => 'required|date',
-            'time_start' => 'nullable|date_format:H:i',
-            'time_end' => 'nullable|date_format:H:i',
+            'date_from' => 'required|date',
+            'date_to' => 'required|date',
             'course_id' => 'nullable|exists:courses,id'
         ]);
         

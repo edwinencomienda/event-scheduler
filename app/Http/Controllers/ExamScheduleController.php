@@ -20,7 +20,8 @@ class ExamScheduleController extends Controller
         $examSchedules = $this->examSchedule->with([
             'subject',
             'proctor',
-            'room'
+            'room',
+            'section'
         ])->get();
         return response()->json($examSchedules);
     }

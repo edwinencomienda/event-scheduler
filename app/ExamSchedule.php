@@ -12,7 +12,8 @@ class ExamSchedule extends Model
         'time_start',
         'time_end',
         'proctor_id',
-        'room_id'
+        'room_id',
+        'section_id'
     ];
 
     public function subject()
@@ -28,5 +29,10 @@ class ExamSchedule extends Model
     public function room()
     {
         return $this->belongsTo(Room::class, 'room_id');
+    }
+
+    public function section()
+    {
+        return $this->belongsTo(Section::class, 'section_id');
     }
 }

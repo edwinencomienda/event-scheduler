@@ -14,7 +14,7 @@ import PageNotFound from './views/404.vue'
 export const router = new VueRouter({
   mode: 'history',
   routes: [
-      { path: '*', redirect: '/dashboard' },
+      { path: '/', redirect: '/dashboard' },
       {
           path: '/dashboard',
           name: 'dashboard',

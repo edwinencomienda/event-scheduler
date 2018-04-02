@@ -23,6 +23,7 @@
         <td>{{ props.item.date }}</td>
         <td>{{ props.item.time_start }}</td>
         <td>{{ props.item.time_end }}</td>
+        <td>{{ props.item.section.code }}</td>
       </template>
       <v-alert slot="no-results" :value="true" color="error" icon="warning">
         Your search for "{{ search }}" found no results.
@@ -137,6 +138,17 @@
               </v-flex>
               <v-flex xs12>
                 <v-select
+                  label="Section"
+                  required
+                  v-model="sectionId"
+                  autocomplete
+                  item-text="code"
+                  item-value="id"
+                  :items="sections"
+                ></v-select>
+              </v-flex>
+              <v-flex xs12>
+                <v-select
                   label="Proctor"
                   required
                   v-model="proctorId"
@@ -201,12 +213,14 @@
           { text: 'Date', value: 'date' },
           { text: 'Time Start', value: 'time_start' },
           { text: 'Time End', value: 'time_end' },
+          { text: 'Section', value: 'section.code' }
         ],
         items: [],
         dialog: false,
         users: [],
         subjects: [],
         rooms: [],
+        sections: [],
         date: null,
         menu: false,
         time: null,
@@ -219,7 +233,8 @@
         roomId: '',
         snackbar: false,
         snackbarColor: '',
-        snackbarText: ''
+        snackbarText: '',
+        sectionId: ''
       }
     },
     created () {
@@ -227,6 +242,7 @@
       this.getSubjects ()
       this.getUsers()
       this.getRooms()
+      this.getSections()
     },
     methods: {
       async getItems () {
@@ -247,7 +263,7 @@
       },
       async getUsers () {
         try {
-          const response = await axios.get('/api/user')
+          const response = await axios.get('/api/user?role=instructor')
           this.users = response.data
         } catch (error) {
           // fails
@@ -261,6 +277,14 @@
           // fails
         }
       },
+      async getSections () {
+        try {
+          const response = await axios.get('/api/section')
+          this.sections = response.data
+        } catch (error) {
+          // fails
+        }
+      },
       async createSchedule () {
         try {
           const formData  = {
@@ -269,7 +293,8 @@
             time_start: this.timeStart,
             time_end: this.timeEnd,
             date: this.date,
-            room_id: this.roomId
+            room_id: this.roomId,
+            section_id: this.subjectId
           }
           const response = await axios.post('/api/exam-schedule', formData)
           this.subjectId = ''
@@ -278,6 +303,7 @@
           this.timeEnd = null
           this.date = ''
           this.roomId = ''
+          this.subjectId = ''
           this.dialog = false
           this.snackbarText = 'Exam Schedule Successfully Created.'
           this.snackbarColor = 'success'

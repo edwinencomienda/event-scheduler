@@ -21,5 +21,5 @@ Route::group(['middleware' => 'guest'], function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/{any}', 'SpaController@index')->where('any', '.*');
+    Route::any('{all}', 'SpaController@index')->where('any', '.*');
 });

@@ -16,9 +16,8 @@ class CreateActivitiesTable extends Migration
         Schema::create('activities', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->date('date');
-            $table->time('time_start')->nullable();
-            $table->time('time_end')->nullable();
+            $table->date('date_from')->nullable();
+            $table->date('date_to')->nullable();
             $table->integer('course_id')->nullable();
             $table->timestamps();
         });

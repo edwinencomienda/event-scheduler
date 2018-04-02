@@ -9,8 +9,8 @@ class Activity extends Model
     protected $fillable = [
         'name',
         'date',
-        'time_start',
-        'time_end',
+        'date_from',
+        'date_to',
         'course_id'
     ];
 }
