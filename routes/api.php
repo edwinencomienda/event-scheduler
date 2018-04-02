@@ -21,6 +21,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::match(['get', 'post'], 'login', 'UserController@login');
     Route::match(['get', 'post'], 'change-password', 'UserController@changePassword');
     Route::post('register', 'UserController@register');
+    Route::get('logout', 'UserController@logout');
 });
 
 Route::apiResource('course', 'CourseController');

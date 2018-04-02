@@ -80,7 +80,7 @@
       <v-menu offset-y>
           <v-icon slot="activator">more_vert</v-icon>
           <v-list>
-            <v-list-tile>
+            <v-list-tile @click="logout"> 
               <v-list-tile-title>Logout</v-list-tile-title>
             </v-list-tile>
           </v-list>
@@ -203,6 +203,11 @@
     }),
     props: {
       source: String
+    },
+    methods: {
+      logout () {
+        window.location.href = '/auth/logout'
+      }
     }
   }
 </script>

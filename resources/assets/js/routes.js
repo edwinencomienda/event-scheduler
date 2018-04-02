@@ -9,10 +9,12 @@ import RequestsIndex from './views/requests/Index'
 import ActivitiesIndex from './views/activities/Index'
 import ExamSchedulesIndex from './views/exam-schedules/Index'
 
+import PageNotFound from './views/404.vue'
+
 export const router = new VueRouter({
   mode: 'history',
   routes: [
-      { path: '/', redirect: '/dashboard' },
+      { path: '*', redirect: '/dashboard' },
       {
           path: '/dashboard',
           name: 'dashboard',
@@ -57,6 +59,10 @@ export const router = new VueRouter({
         path: '/exam-schedules',
         name: 'exam-schedules',
         component: ExamSchedulesIndex
-      }
+      },
+      // {
+      //   path: '*',
+      //   component: PageNotFound
+      // }
   ],
 })
