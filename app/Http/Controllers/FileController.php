@@ -50,7 +50,7 @@ class FileController extends Controller
 
         foreach ($students as $key => $student) {
             $userCount = User::count();
-            if ($key <= 800) {
+            if (1 < 2) {
                 $isRegistered = User::where('student_id', $student->studentid)->first();
                 if (!$isRegistered) {
     
