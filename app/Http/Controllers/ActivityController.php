@@ -13,9 +13,17 @@ class ActivityController extends Controller
         $this->activity = $activity;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $activities = $this->activity->latest()->get();
+        if ($request->has('upcoming')) {
+            $activities = $this->activity
+            ->where('course_id', $request->get('course_id'))
+            ->orderBy('date_from')
+            ->latest()->get();
+        } else {
+            $activities = $this->activity->latest()->get();
+        }
+        
         return response()->json($activities);
     }
 

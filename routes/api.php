@@ -43,3 +43,7 @@ Route::group(['prefix' => 'file'], function () {
 Route::group(['prefix' => 'admin'], function () {
     Route::post('approve/user-request', 'AdminController@approveUserRequest');
 });
+
+Route::group(['prefix' => 'user'], function () {
+    Route::get('exam-schedules/{id}', 'UserController@userExamSchedules');
+});

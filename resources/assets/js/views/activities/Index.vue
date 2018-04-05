@@ -168,7 +168,7 @@
     methods: {
       async getItems () {
         try {
-          const response = await axios.get('/api/activity')
+          const response = await axios.get('/api/activity?upcoming=true')
           this.items = response.data
         } catch (error) {
           // fails

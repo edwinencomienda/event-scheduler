@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\ExamSchedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -38,16 +39,16 @@ class UserController extends Controller
     public function register(Request $request)
     {
         $this->validate($request, [
-            'first_name' => 'required',
+             'first_name' => 'required',
              'last_name' => 'required',
-             'gender' => 'required',
              'email' => 'required|unique:users',
              'password' => 'required',
-             'course_id' => 'required|exists:courses,id',
-             'year_level' => 'required',
              'role' => 'required',
-             'status' => 'required'
+             'gender' => 'required',
+             'active' => '1'
         ]);
+
+        $request['password'] = bcrypt($request['password']);
 
         $user = User::create($request->only([
             'first_name',
@@ -81,7 +82,9 @@ class UserController extends Controller
         $email = $request->get('email');
         $password = $request->get('password');
 
-        $user = User::where('email', $email)->first();
+        $user = User::where('email', $email)
+        ->with('subjects.subject')
+        ->first();
 
         if (!$user) {
             return response()->json('email and password is incorrect.', 404);
@@ -122,5 +125,14 @@ class UserController extends Controller
     {
         Auth::logout();
         return redirect('login');
+    }
+
+    public function userExamSchedules($id)
+    {
+        $user = User::find($id);
+        $subjectIds = collect($user->subjects)->pluck('subject_id');
+        return ExamSchedule::with('subject', 'proctor')
+        ->whereIn('subject_id', $subjectIds)
+        ->get();
     }
 }
