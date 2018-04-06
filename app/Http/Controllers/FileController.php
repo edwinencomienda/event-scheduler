@@ -73,10 +73,11 @@ class FileController extends Controller
                         ]);
                     }
     
-                    $instructor = User::where('first_name', $student->firstname)
-                    ->where('last_name', $student->lastname)
-                    ->first();
+                    // create student
+                    $instructorEmail = removeSpaces(strtolower($student->firstname . $student->lastname))  ."@gmail.com";
                     
+                    $instructor = User::where('email', $instructorEmail)->first();
+
                     if (!$instructor && $student->instructorid) {
                         // create instructor
                         $instructor = User::firstOrCreate([
@@ -111,9 +112,7 @@ class FileController extends Controller
                     // create student
                     $studentEmail = removeSpaces(strtolower($student->firstname . $student->lastname))  ."@gmail.com";
                     
-                    $userStudent = User::where('first_name', $student->firstname)
-                    ->where('last_name', $student->lastname)
-                    ->first();
+                    $userStudent = User::where('email', $studentEmail)->first();
 
                     if (!$userStudent && !$student->instructorid && $student->firstname && $student->lastname) {
                             $user = User::firstOrCreate([
