@@ -74,7 +74,7 @@ class FileController extends Controller
                     }
     
                     // create student
-                    $instructorEmail = removeSpaces(strtolower($student->firstname . $student->lastname))  ."@gmail.com";
+                    $instructorEmail = removeSpaces(strtolower($student->teacherfname . $student->teaherlname))  ."@gmail.com";
                     
                     $instructor = User::where('email', $instructorEmail)->first();
 
