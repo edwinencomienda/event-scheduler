@@ -107,23 +107,29 @@ class FileController extends Controller
     
                     // create student
                     $studentEmail = removeSpaces(strtolower($student->firstname . $student->lastname)) . '@gmail.com';
+                    
                     $userStudent = User::where('email', $studentEmail)->first();
-                    if (!$userStudent && !$student->instructorid) {
-                        $user = User::firstOrCreate([
-                            'student_id' => $student->studentid,
-                            'first_name' => $student->firstname,
-                            'middle_name' => $student->middlename,
-                            'last_name' => $student->lastname,
-                            'gender' => $student->sex,
-                            'status' => $student->status,
-                            'course_id' => $course->id,
-                            'year_level' => $student->yearlevel,
-                            // for user account
-                            'email' => $studentEmail,
-                            'password' => bcrypt('test123'),
-                            'role' => 'student',
-                            'active' => true
-                        ]);
+
+                    if (!$userStudent && !$student->instructorid && $student->firstname && $student->lastname) {
+                        try  {
+                            $user = User::firstOrCreate([
+                                'student_id' => $student->studentid,
+                                'first_name' => $student->firstname,
+                                'middle_name' => optional($student)->middlename,
+                                'last_name' => optional($student)->lastname,
+                                'gender' => optional($student)->sex,
+                                'status' => optional($student)->status,
+                                'course_id' => ($course)->id,
+                                'year_level' => optional($student)->yearlevel,
+                                // for user account
+                                'email' => $studentEmail,
+                                'password' => bcrypt('test123'),
+                                'role' => 'student',
+                                'active' => true
+                            ]);
+                        } catch (\Exception $e) {
+                            throw $e;
+                        }
                     }
                 }
             }
