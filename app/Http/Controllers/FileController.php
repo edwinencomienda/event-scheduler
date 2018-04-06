@@ -73,8 +73,7 @@ class FileController extends Controller
                         ]);
                     }
     
-                    $instructor = User::where('instructor_id', $student->instructorid)
-                    ->where('first_name', $student->firstname)
+                    $instructor = User::where('first_name', $student->firstname)
                     ->where('last_name', $student->lastname)
                     ->first();
                     
