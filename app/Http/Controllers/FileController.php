@@ -82,7 +82,7 @@ class FileController extends Controller
                             'last_name' => $student->teaherlname,
                             'gender' => 'Male',
                             // for user account
-                            'email' => removeSpaces(strtolower($student->teacherfname . $student->teaherlname)) . '@gmail.com',
+                            'email' => removeSpaces(strtolower($student->teacherfname . $student->teaherlname))  . '@gmail.com',
                             'password' => bcrypt('test123'),
                             'role' => 'instructor',
                             'active' => true
@@ -106,9 +106,12 @@ class FileController extends Controller
                     }
     
                     // create student
-                    $studentEmail = removeSpaces(strtolower($student->firstname . $student->lastname)) . '@gmail.com';
+                    $studentEmail = removeSpaces(strtolower($student->firstname . $student->lastname))  ."@gmail.com";
                     
-                    $userStudent = User::where('email', $studentEmail)->first();
+                    $userStudent = User::where('email', $studentEmail)
+                    ->where('first_name', $student->firstname)
+                    ->where('last_name', $student->lastname)
+                    ->first();
 
                     if (!$userStudent && !$student->instructorid && $student->firstname && $student->lastname) {
                             $user = User::firstOrCreate([
