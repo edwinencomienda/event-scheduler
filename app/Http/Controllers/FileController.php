@@ -96,8 +96,8 @@ class FileController extends Controller
                             'description' => $student->description,
                             'is_lab' => $student->islab,
                             'units' => $student->totalunits,
-                            'time_start' => $student->timebegin,
-                            'time_end' => $student->timeend,
+                            'time_start' => $student->timebegin ? $student->timebegin : '00:00',
+                            'time_end' => $student->timeend ? $student->timeend : '00:00',
                             'day_code' => $student->daycode,
                             'room_id' => optional($room)->id,
                             'instructor_id' => optional($instructor)->id,
@@ -111,7 +111,6 @@ class FileController extends Controller
                     $userStudent = User::where('email', $studentEmail)->first();
 
                     if (!$userStudent && !$student->instructorid && $student->firstname && $student->lastname) {
-                        try  {
                             $user = User::firstOrCreate([
                                 'student_id' => $student->studentid,
                                 'first_name' => $student->firstname,
@@ -127,9 +126,6 @@ class FileController extends Controller
                                 'role' => 'student',
                                 'active' => true
                             ]);
-                        } catch (\Exception $e) {
-                            throw $e;
-                        }
                     }
                 }
             }

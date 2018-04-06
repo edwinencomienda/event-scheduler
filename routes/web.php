@@ -17,6 +17,9 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'guest'], function () {
+    Route::get('/', function () {
+        return redirect('/login');
+    });
     Auth::routes();
 });
 
