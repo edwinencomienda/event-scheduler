@@ -21,6 +21,15 @@
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.date_from }}</td>
         <td>{{ props.item.date_to }}</td>
+        <td>{{ props.item.description }}</td>
+        <td style="width:162px;">
+            <v-btn @click="showForm('edit', props.item)" flat icon color="primary">
+              <v-icon>create</v-icon>
+            </v-btn>
+            <v-btn  @click="showDeleteModal(props.item)" flat icon dark color="red">
+              <v-icon>delete</v-icon>
+            </v-btn>
+        </td>
       </template>
       <v-alert slot="no-results" :value="true" color="error" icon="warning">
         Your search for "{{ search }}" found no results.
@@ -28,10 +37,22 @@
     </v-data-table>
   </v-card>
 
+
+   <v-dialog v-model="deleteModal" max-width="290">
+      <v-card>
+        <v-card-title class="headline">Are you sure to delete?</v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" flat="flat" @click.native="deleteModal = false">Disagree</v-btn>
+          <v-btn color="primary" flat="flat" @click.native="deleteRecord">Agree</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
 <v-dialog v-model="dialog" persistent max-width="500px">
       <v-card>
         <v-card-title>
-          <span class="headline">Create Activity</span>
+          <span class="headline">{{ mode === 'add' ? 'Create' : 'Update' }} Activity</span>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
@@ -97,6 +118,15 @@
                         </v-date-picker>
                     </v-menu>
               </v-flex>
+              <v-flex xs12>
+                  <v-text-field
+                    v-model="description"
+                    name="input-1"
+                    label="Description"
+                    :multi-line="true"
+                    id="testing"
+                  ></v-text-field>
+              </v-flex>
             </v-layout>
           </v-container>
           <small>*indicates required field</small>
@@ -104,7 +134,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" flat @click="createActivity">Save</v-btn>
+          <v-btn color="blue darken-1" flat @click="submitForm">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -112,7 +142,7 @@
 
     <v-fab-transition>
       <v-btn
-        @click="dialog = true"
+        @click="showForm('add')"
         color="primary"
         dark
         fab
@@ -149,6 +179,8 @@
           { text: 'Name', value: 'name' },
           { text: 'Date From', value: 'date_from' },
           { text: 'Date To', value: 'date_to' },
+          { text: 'Description', value: 'description' },
+          { text: '', value: '' },
         ],
         items: [],
         dialog: false,
@@ -159,13 +191,56 @@
         eventName: '',
         snackbar: false,
         snackbarText: '',
-        snackbarColor: ''
+        snackbarColor: '',
+        description: '',
+        deleteItem: '',
+        deleteModal: false,
+        mode: 'add',
+        activityId: ''
       }
     },
     created () {
       this.getItems()
     },
     methods: {
+      showForm (mode, data = '') {
+         if (mode === 'edit') {
+           this.mode = mode
+           this.eventName = data.name
+           this.dateFrom = data.date_from
+           this.dateTo = data.date_to
+           this.description = data.description
+           this.activityId = data.id
+           this.dialog = true
+         } else {
+           this.mode = 'add'
+           this.resetForm()
+           this.dialog = true
+         }
+      },
+      submitForm () {
+        if (this.mode === 'add') {
+          this.createActivity()
+        } else {
+          this.updateActivity()
+        }
+      },
+      showDeleteModal (item) {
+        this.deleteItem = item
+        this.deleteModal = true
+      },
+      async deleteRecord () {
+        try {
+          const response = await axios.delete('/api/activity/' + this.deleteItem.id)
+          this.getItems()
+          this.snackbarText = 'Activity Successfully Deleted.'
+          this.snackbarColor = 'success'
+          this.snackbar = true
+          this.deleteModal = false
+        } catch (error) {
+          // fails
+        }
+      },
       async getItems () {
         try {
           const response = await axios.get('/api/activity?upcoming=true')
@@ -180,7 +255,8 @@
             name: this.eventName,
             date_from: this.dateFrom,
             date_to: this.dateTo,
-            course_id: ''
+            course_id: '',
+            description: this.description
           }
           const response = await axios.post('/api/activity', formData)
           this.dialog = false
@@ -188,14 +264,43 @@
           this.snackbarColor = 'success'
           this.snackbar = true
           this.getItems()
-          this.eventName = ''
-          this.dateFrom = ''
-          this.dateTo = ''
+          this.resetForm()
         } catch (error) {
           this.snackbarText = 'Something went wrong.'
           this.snackbarColor = 'error'
           this.snackbar = true
         }
+      },
+      async updateActivity () {
+        try {
+          let formData = {
+            id: this.activityId,
+            name: this.eventName,
+            date_from: this.dateFrom,
+            date_to: this.dateTo,
+            course_id: '',
+            description: this.description,
+            _method: 'put'
+          }
+          const response = await axios.post('/api/activity/' + this.activityId, formData)
+          this.dialog = false
+          this.snackbarText = 'Activity Successfully Updated.'
+          this.snackbarColor = 'success'
+          this.snackbar = true
+          this.resetForm()
+          this.getItems()
+        } catch (error) {
+          this.snackbarText = 'Something went wrong.'
+          this.snackbarColor = 'error'
+          this.snackbar = true
+        }
+      },
+      resetForm () {
+        this.eventName = ''
+        this.dateFrom = ''
+        this.dateTo = ''
+        this.description = ''
+        this.activityId = ''
       }
     }
   }

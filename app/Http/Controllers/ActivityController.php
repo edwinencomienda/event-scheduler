@@ -33,7 +33,7 @@ class ActivityController extends Controller
             'name' => 'required|string',
             'date_from' => 'required|date',
             'date_to' => 'required|date',
-            'course_id' => 'nullable|exists:courses,id'
+            'course_id' => 'nullable|exists:courses,id',
         ]);
         
         $activity = $this->activity->firstOrCreate($request->all());

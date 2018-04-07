@@ -14,6 +14,7 @@
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.date_from }}</td>
         <td>{{ props.item.date_to }}</td>
+        <td>{{ props.item.description }}</td>
       </template>
       <v-alert slot="no-results" :value="true" color="error" icon="warning">
         Your search for "{{ search }}" found no results.
@@ -126,6 +127,7 @@
           { text: 'Name', value: 'name' },
           { text: 'Date From', value: 'date_from' },
           { text: 'Date To', value: 'date_to' },
+          { text: 'Description', value: 'description' },
         ],
         items: [],
         dialog: false,

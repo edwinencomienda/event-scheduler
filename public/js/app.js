@@ -50201,12 +50201,13 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       search: '',
-      headers: [{ text: 'Name', value: 'name' }, { text: 'Date From', value: 'date_from' }, { text: 'Date To', value: 'date_to' }],
+      headers: [{ text: 'Name', value: 'name' }, { text: 'Date From', value: 'date_from' }, { text: 'Date To', value: 'date_to' }, { text: 'Description', value: 'description' }],
       items: [],
       dialog: false,
       dateFrom: '',
@@ -51128,7 +51129,9 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(props.item.date_from))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(props.item.date_to))])
+                      _c("td", [_vm._v(_vm._s(props.item.date_to))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(props.item.description))])
                     ]
                   }
                 }
@@ -54346,12 +54349,42 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       search: '',
-      headers: [{ text: 'Name', value: 'name' }, { text: 'Date From', value: 'date_from' }, { text: 'Date To', value: 'date_to' }],
+      headers: [{ text: 'Name', value: 'name' }, { text: 'Date From', value: 'date_from' }, { text: 'Date To', value: 'date_to' }, { text: 'Description', value: 'description' }, { text: '', value: '' }],
       items: [],
       dialog: false,
       dateFrom: '',
@@ -54361,7 +54394,12 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
       eventName: '',
       snackbar: false,
       snackbarText: '',
-      snackbarColor: ''
+      snackbarColor: '',
+      description: '',
+      deleteItem: '',
+      deleteModal: false,
+      mode: 'add',
+      activityId: ''
     };
   },
   created: function created() {
@@ -54369,7 +54407,35 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
   },
 
   methods: {
-    getItems: function () {
+    showForm: function showForm(mode) {
+      var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+      if (mode === 'edit') {
+        this.mode = mode;
+        this.eventName = data.name;
+        this.dateFrom = data.date_from;
+        this.dateTo = data.date_to;
+        this.description = data.description;
+        this.activityId = data.id;
+        this.dialog = true;
+      } else {
+        this.mode = 'add';
+        this.resetForm();
+        this.dialog = true;
+      }
+    },
+    submitForm: function submitForm() {
+      if (this.mode === 'add') {
+        this.createActivity();
+      } else {
+        this.updateActivity();
+      }
+    },
+    showDeleteModal: function showDeleteModal(item) {
+      this.deleteItem = item;
+      this.deleteModal = true;
+    },
+    deleteRecord: function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
         var response;
         return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
@@ -54378,86 +54444,186 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return axios.get('/api/activity?upcoming=true');
+                return axios.delete('/api/activity/' + this.deleteItem.id);
 
               case 3:
                 response = _context.sent;
 
-                this.items = response.data;
-                _context.next = 9;
+                this.getItems();
+                this.snackbarText = 'Activity Successfully Deleted.';
+                this.snackbarColor = 'success';
+                this.snackbar = true;
+                this.deleteModal = false;
+                _context.next = 13;
                 break;
 
-              case 7:
-                _context.prev = 7;
+              case 11:
+                _context.prev = 11;
                 _context.t0 = _context['catch'](0);
 
-              case 9:
+              case 13:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[0, 7]]);
+        }, _callee, this, [[0, 11]]);
       }));
 
-      function getItems() {
+      function deleteRecord() {
         return _ref.apply(this, arguments);
       }
 
-      return getItems;
+      return deleteRecord;
     }(),
-    createActivity: function () {
+    getItems: function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
-        var formData, response;
+        var response;
         return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.prev = 0;
+                _context2.next = 3;
+                return axios.get('/api/activity?upcoming=true');
+
+              case 3:
+                response = _context2.sent;
+
+                this.items = response.data;
+                _context2.next = 9;
+                break;
+
+              case 7:
+                _context2.prev = 7;
+                _context2.t0 = _context2['catch'](0);
+
+              case 9:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this, [[0, 7]]);
+      }));
+
+      function getItems() {
+        return _ref2.apply(this, arguments);
+      }
+
+      return getItems;
+    }(),
+    createActivity: function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3() {
+        var formData, response;
+        return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
                 formData = {
                   name: this.eventName,
                   date_from: this.dateFrom,
                   date_to: this.dateTo,
-                  course_id: ''
+                  course_id: '',
+                  description: this.description
                 };
-                _context2.next = 4;
+                _context3.next = 4;
                 return axios.post('/api/activity', formData);
 
               case 4:
-                response = _context2.sent;
+                response = _context3.sent;
 
                 this.dialog = false;
                 this.snackbarText = 'Activity Successfully Created.';
                 this.snackbarColor = 'success';
                 this.snackbar = true;
                 this.getItems();
-                this.eventName = '';
-                this.dateFrom = '';
-                this.dateTo = '';
-                _context2.next = 20;
+                this.resetForm();
+                _context3.next = 18;
                 break;
 
-              case 15:
-                _context2.prev = 15;
-                _context2.t0 = _context2['catch'](0);
+              case 13:
+                _context3.prev = 13;
+                _context3.t0 = _context3['catch'](0);
 
                 this.snackbarText = 'Something went wrong.';
                 this.snackbarColor = 'error';
                 this.snackbar = true;
 
-              case 20:
+              case 18:
               case 'end':
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this, [[0, 15]]);
+        }, _callee3, this, [[0, 13]]);
       }));
 
       function createActivity() {
-        return _ref2.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       }
 
       return createActivity;
-    }()
+    }(),
+    updateActivity: function () {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee4() {
+        var formData, response;
+        return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.prev = 0;
+                formData = {
+                  id: this.activityId,
+                  name: this.eventName,
+                  date_from: this.dateFrom,
+                  date_to: this.dateTo,
+                  course_id: '',
+                  description: this.description,
+                  _method: 'put'
+                };
+                _context4.next = 4;
+                return axios.post('/api/activity/' + this.activityId, formData);
+
+              case 4:
+                response = _context4.sent;
+
+                this.dialog = false;
+                this.snackbarText = 'Activity Successfully Updated.';
+                this.snackbarColor = 'success';
+                this.snackbar = true;
+                this.resetForm();
+                this.getItems();
+                _context4.next = 18;
+                break;
+
+              case 13:
+                _context4.prev = 13;
+                _context4.t0 = _context4['catch'](0);
+
+                this.snackbarText = 'Something went wrong.';
+                this.snackbarColor = 'error';
+                this.snackbar = true;
+
+              case 18:
+              case 'end':
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this, [[0, 13]]);
+      }));
+
+      function updateActivity() {
+        return _ref4.apply(this, arguments);
+      }
+
+      return updateActivity;
+    }(),
+    resetForm: function resetForm() {
+      this.eventName = '';
+      this.dateFrom = '';
+      this.dateTo = '';
+      this.description = '';
+      this.activityId = '';
+    }
   }
 });
 
@@ -54518,7 +54684,49 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(props.item.date_from))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(props.item.date_to))])
+                      _c("td", [_vm._v(_vm._s(props.item.date_to))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(props.item.description))]),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        { staticStyle: { width: "162px" } },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { flat: "", icon: "", color: "primary" },
+                              on: {
+                                click: function($event) {
+                                  _vm.showForm("edit", props.item)
+                                }
+                              }
+                            },
+                            [_c("v-icon", [_vm._v("create")])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                flat: "",
+                                icon: "",
+                                dark: "",
+                                color: "red"
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.showDeleteModal(props.item)
+                                }
+                              }
+                            },
+                            [_c("v-icon", [_vm._v("delete")])],
+                            1
+                          )
+                        ],
+                        1
+                      )
                     ]
                   }
                 }
@@ -54554,6 +54762,66 @@ var render = function() {
       _c(
         "v-dialog",
         {
+          attrs: { "max-width": "290" },
+          model: {
+            value: _vm.deleteModal,
+            callback: function($$v) {
+              _vm.deleteModal = $$v
+            },
+            expression: "deleteModal"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", { staticClass: "headline" }, [
+                _vm._v("Are you sure to delete?")
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary", flat: "flat" },
+                      nativeOn: {
+                        click: function($event) {
+                          _vm.deleteModal = false
+                        }
+                      }
+                    },
+                    [_vm._v("Disagree")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary", flat: "flat" },
+                      nativeOn: {
+                        click: function($event) {
+                          return _vm.deleteRecord($event)
+                        }
+                      }
+                    },
+                    [_vm._v("Agree")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
           attrs: { persistent: "", "max-width": "500px" },
           model: {
             value: _vm.dialog,
@@ -54569,7 +54837,10 @@ var render = function() {
             [
               _c("v-card-title", [
                 _c("span", { staticClass: "headline" }, [
-                  _vm._v("Create Activity")
+                  _vm._v(
+                    _vm._s(_vm.mode === "add" ? "Create" : "Update") +
+                      " Activity"
+                  )
                 ])
               ]),
               _vm._v(" "),
@@ -54802,6 +55073,29 @@ var render = function() {
                               )
                             ],
                             1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  name: "input-1",
+                                  label: "Description",
+                                  "multi-line": true,
+                                  id: "testing"
+                                },
+                                model: {
+                                  value: _vm.description,
+                                  callback: function($$v) {
+                                    _vm.description = $$v
+                                  },
+                                  expression: "description"
+                                }
+                              })
+                            ],
+                            1
                           )
                         ],
                         1
@@ -54837,7 +55131,7 @@ var render = function() {
                     "v-btn",
                     {
                       attrs: { color: "blue darken-1", flat: "" },
-                      on: { click: _vm.createActivity }
+                      on: { click: _vm.submitForm }
                     },
                     [_vm._v("Save")]
                   )
@@ -54867,7 +55161,7 @@ var render = function() {
               },
               on: {
                 click: function($event) {
-                  _vm.dialog = true
+                  _vm.showForm("add")
                 }
               }
             },
