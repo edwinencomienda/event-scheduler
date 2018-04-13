@@ -36,7 +36,8 @@ Route::apiResource('activity', 'ActivityController');
 Route::apiResource('room', 'RoomController');
 
 Route::group(['prefix' => 'file'], function () {
-    Route::get('download', 'FileController@export');
+    Route::get('download/exam-schedules', 'FileController@downloadExamSchedules');
+    Route::get('download/activities', 'FileController@downloadActivities');
     Route::post('import/students', 'FileController@importStudents');
 });
 

@@ -54379,6 +54379,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -54399,7 +54404,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
       deleteItem: '',
       deleteModal: false,
       mode: 'add',
-      activityId: ''
+      activityId: '',
+      baseUrl: document.head.querySelector('meta[name="base-url"]').content
     };
   },
   created: function created() {
@@ -54662,7 +54668,23 @@ var render = function() {
                   },
                   expression: "search"
                 }
-              })
+              }),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  attrs: { href: _vm.baseUrl + "/api/file/download/activities" }
+                },
+                [
+                  _c(
+                    "v-btn",
+                    { attrs: { flat: "", icon: "", color: "primary" } },
+                    [_c("v-icon", [_vm._v("print")])],
+                    1
+                  )
+                ],
+                1
+              )
             ],
             1
           ),
@@ -55482,6 +55504,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -55507,7 +55534,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
       snackbar: false,
       snackbarColor: '',
       snackbarText: '',
-      sectionId: ''
+      sectionId: '',
+      baseUrl: document.head.querySelector('meta[name="base-url"]').content
     };
   },
   created: function created() {
@@ -55797,7 +55825,25 @@ var render = function() {
                   },
                   expression: "search"
                 }
-              })
+              }),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  attrs: {
+                    href: _vm.baseUrl + "/api/file/download/exam-schedules"
+                  }
+                },
+                [
+                  _c(
+                    "v-btn",
+                    { attrs: { flat: "", icon: "", color: "primary" } },
+                    [_c("v-icon", [_vm._v("print")])],
+                    1
+                  )
+                ],
+                1
+              )
             ],
             1
           ),
@@ -74790,7 +74836,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       dialog: false,
       drawer: null,
-      items: [{ icon: 'apps', text: 'Dashboard', link: '/dashboard' }, { icon: 'people', text: 'Students', link: '/students' }, { icon: 'people', text: 'Instructors', link: '/instructors' }, { icon: 'supervisor_account', text: 'Deans', link: '/deans' }, { icon: 'announcement', text: 'Activities', link: '/activities' }, { icon: 'account_circle', text: 'Users', link: '/users' }, { icon: 'history', text: 'Requests', link: '/requests' }, { icon: 'history', text: 'Exam Schedules', link: '/exam-schedules' }, { icon: 'settings', text: 'Settings', link: '/settings' }],
+      items: [{ icon: 'apps', text: 'Dashboard', link: '/dashboard' }, { icon: 'people', text: 'Students', link: '/students' }, { icon: 'people', text: 'Instructors', link: '/instructors' }, { icon: 'supervisor_account', text: 'Deans', link: '/deans' }, { icon: 'announcement', text: 'Activities', link: '/activities' }, { icon: 'account_circle', text: 'Users', link: '/users' },
+      // { icon: 'history', text: 'Requests', link: '/requests' },
+      { icon: 'history', text: 'Exam Schedules', link: '/exam-schedules' }, { icon: 'settings', text: 'Settings', link: '/settings' }],
       // speed dial
       direction: 'top',
       fab: false,

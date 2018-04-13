@@ -11,6 +11,11 @@
         hide-details
         v-model="search"
       ></v-text-field>
+      <a :href="baseUrl + '/api/file/download/activities'">
+      <v-btn flat icon color="primary">
+              <v-icon>print</v-icon>
+      </v-btn>
+      </a>
     </v-card-title>
     <v-data-table
       :headers="headers"
@@ -196,7 +201,8 @@
         deleteItem: '',
         deleteModal: false,
         mode: 'add',
-        activityId: ''
+        activityId: '',
+        baseUrl: document.head.querySelector('meta[name="base-url"]').content
       }
     },
     created () {

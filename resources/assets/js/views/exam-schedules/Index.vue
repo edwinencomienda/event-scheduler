@@ -11,6 +11,11 @@
         hide-details
         v-model="search"
       ></v-text-field>
+      <a :href="baseUrl + '/api/file/download/exam-schedules'">
+      <v-btn flat icon color="primary">
+              <v-icon>print</v-icon>
+      </v-btn>
+      </a>
     </v-card-title>
     <v-data-table
       :headers="headers"
@@ -234,7 +239,8 @@
         snackbar: false,
         snackbarColor: '',
         snackbarText: '',
-        sectionId: ''
+        sectionId: '',
+        baseUrl: document.head.querySelector('meta[name="base-url"]').content
       }
     },
     created () {

@@ -185,7 +185,7 @@
         { icon: 'supervisor_account', text: 'Deans', link: '/deans' },
         { icon: 'announcement', text: 'Activities', link: '/activities' },
         { icon: 'account_circle', text: 'Users', link: '/users' },
-        { icon: 'history', text: 'Requests', link: '/requests' },
+        // { icon: 'history', text: 'Requests', link: '/requests' },
         { icon: 'history', text: 'Exam Schedules', link: '/exam-schedules' },
         { icon: 'settings', text: 'Settings', link: '/settings' }
       ],

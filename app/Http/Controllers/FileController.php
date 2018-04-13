@@ -8,7 +8,9 @@ use App\User;
 use App\Course;
 use App\Section;
 use App\Subject;
+use App\Activity;
 use App\UserSubject;
+use App\ExamSchedule;
 use App\Exports\UsersExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -34,6 +36,58 @@ class FileController extends Controller
         });
 
         return Excel::download(new UsersExport($users), 'invoices.csv');
+    }
+
+    public function downloadExamSchedules()
+    {
+        $schedules = ExamSchedule::with([
+            'subject',
+            'proctor',
+            'room',
+            'section'
+        ])
+        ->get();
+
+        $schedules = collect($schedules)->map(function ($value) {
+            return [
+                'Subject Code' => $value->subject->code,
+                'Subject Description' => $value->subject->description,
+                'Date' => $value->date,
+                'Time Start' => $value->time_start,
+                'Time End' => $value->time_end,
+                'Section' => $value->section->code,
+            ];
+        });
+
+        Excel::create('Exam Schedules', function($excel) use($schedules) {
+            $excel->sheet('Sheet 1', function($sheet) use($schedules) {
+                $sheet->fromArray($schedules);
+            });
+        })->export('csv');
+
+        // return $schedules;
+    }
+
+    public function downloadActivities()
+    {
+        $activities = Activity::get();
+
+        $activities = collect($activities)->map(function ($value) {
+            return [
+                'Name' => $value->name,
+                'Date From' => $value->date_from,
+                'Date To' => $value->date_t,
+                'Description' => $value->description
+            ];
+        });
+
+        Excel::create('Activities', function($excel) use($activities) {
+            $excel->sheet('Sheet 1', function($sheet) use($activities) {
+                $sheet->fromArray($activities);
+            });
+        })->export('csv');
+
+        // return $activities;
     }
 
     public function importStudents(Request $request)
