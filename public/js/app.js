@@ -55861,7 +55861,11 @@ var render = function() {
                   key: "items",
                   fn: function(props) {
                     return [
-                      _c("td", [_vm._v(_vm._s(props.item.subject.code))]),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(props.item.subject && props.item.subject.code)
+                        )
+                      ]),
                       _vm._v(" "),
                       _c("td", [
                         _vm._v(_vm._s(props.item.subject.description))
@@ -55873,7 +55877,11 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(props.item.time_end))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(props.item.section.code))])
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(props.item.section && props.item.section.code)
+                        )
+                      ])
                     ]
                   }
                 }

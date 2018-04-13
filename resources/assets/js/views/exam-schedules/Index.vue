@@ -23,12 +23,12 @@
       :search="search"
     >
       <template slot="items" slot-scope="props">
-        <td>{{ props.item.subject.code }}</td>
+        <td>{{ props.item.subject && props.item.subject.code }}</td>
         <td>{{ props.item.subject.description }}</td>
         <td>{{ props.item.date }}</td>
         <td>{{ props.item.time_start }}</td>
         <td>{{ props.item.time_end }}</td>
-        <td>{{ props.item.section.code }}</td>
+        <td>{{ props.item.section && props.item.section.code }}</td>
       </template>
       <v-alert slot="no-results" :value="true" color="error" icon="warning">
         Your search for "{{ search }}" found no results.
