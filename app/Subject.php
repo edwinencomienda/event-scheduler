@@ -19,4 +19,9 @@ class Subject extends Model
         'section_id',
         'instructor_id'
     ];
+
+    public function room()
+    {
+        return $this->belongsTo(Room::class, 'room_id', 'id');
+    }
 }

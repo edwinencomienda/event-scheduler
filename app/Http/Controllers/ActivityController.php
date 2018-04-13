@@ -18,6 +18,7 @@ class ActivityController extends Controller
         if ($request->has('upcoming')) {
             $activities = $this->activity
             ->where('course_id', $request->get('course_id'))
+            ->orWhereNull('course_id')
             ->orderBy('date_from')
             ->latest()->get();
         } else {

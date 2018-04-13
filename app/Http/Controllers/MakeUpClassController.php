@@ -15,7 +15,10 @@ class MakeUpClassController extends Controller
 
     public function index()
     {
-        return response()->json($this->makeUpClass->all());
+        
+        return response()->json($this->makeUpClass
+        ->with('subject')
+        ->get());
     }
 
     public function store(Request $request)

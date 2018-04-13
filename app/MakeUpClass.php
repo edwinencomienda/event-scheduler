@@ -12,4 +12,9 @@ class MakeUpClass extends Model
         'time_start',
         'time_end'
     ];
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 'subject_id');
+    }
 }

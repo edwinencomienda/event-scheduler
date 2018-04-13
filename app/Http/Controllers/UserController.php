@@ -83,7 +83,7 @@ class UserController extends Controller
         $password = $request->get('password');
 
         $user = User::where('email', $email)
-        ->with('subjects.subject')
+        ->with('subjects.subject.room')
         ->first();
 
         if (!$user) {
