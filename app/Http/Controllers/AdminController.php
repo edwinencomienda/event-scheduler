@@ -11,6 +11,7 @@ class AdminController extends Controller
 
     public function __construct(User $user) {
         $this->user = $user;
+        // this is the a comment
     }
 
     public function approveUserRequest(Request $request)

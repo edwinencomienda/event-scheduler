@@ -59,5 +59,6 @@ class ActivityController extends Controller
     public function destroy(Activity $activity)
     {
         $activity->delete();
+        // add comments
     }
 }
