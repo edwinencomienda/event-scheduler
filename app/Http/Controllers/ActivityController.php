@@ -15,16 +15,12 @@ class ActivityController extends Controller
 
     public function index(Request $request)
     {
-        if ($request->has('upcoming')) {
-            $activities = $this->activity
-            ->where('course_id', $request->get('course_id'))
-            ->orWhereNull('course_id')
-            ->orderBy('date_from')
-            ->latest()->get();
-        } else {
-            $activities = $this->activity->latest()->get();
-        }
-        
+        $activities = $this->activity
+        ->where('course_id', $request->get('course_id'))
+        ->where('date_from', '>=', now()->toDateString())
+        ->orderBy('date_from', 'asc')
+        ->get();
+
         return response()->json($activities);
     }
 
@@ -35,6 +31,7 @@ class ActivityController extends Controller
             'date_from' => 'required|date',
             'date_to' => 'required|date',
             'course_id' => 'nullable|exists:courses,id',
+            'venue' => 'required|string'
         ]);
         
         $activity = $this->activity->firstOrCreate($request->all());
@@ -48,7 +45,8 @@ class ActivityController extends Controller
             'name' => 'required|string',
             'date_from' => 'required|date',
             'date_to' => 'required|date',
-            'course_id' => 'nullable|exists:courses,id'
+            'course_id' => 'nullable|exists:courses,id',
+            'venue' => 'required|string'
         ]);
         
         $activity->update($request->all());

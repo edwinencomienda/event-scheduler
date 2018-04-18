@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use Excel;
 use App\Room;
 use App\User;
@@ -41,29 +42,38 @@ class FileController extends Controller
     public function downloadExamSchedules()
     {
         $schedules = ExamSchedule::with([
-            'subject',
+            'subject.instructor',
             'proctor',
             'room',
             'section'
         ])
         ->get();
 
-        $schedules = collect($schedules)->map(function ($value) {
-            return [
-                'Subject Code' => $value->subject->code,
-                'Subject Description' => $value->subject->description,
-                'Date' => $value->date,
-                'Time Start' => $value->time_start,
-                'Time End' => $value->time_end,
-                'Section' => $value->section->code,
-            ];
-        });
+        // $schedules = collect($schedules)->map(function ($value) {
+        //     return [
+        //         'Subject Code' => $value->subject->code,
+        //         'Subject Description' => $value->subject->description,
+        //         'Date' => $value->date,
+        //         'Time Start' => $value->time_start,
+        //         'Time End' => $value->time_end,
+        //         'Section' => optional($value->section)->code,
+        //     ];
+        // });
 
-        Excel::create('Exam Schedules', function($excel) use($schedules) {
-            $excel->sheet('Sheet 1', function($sheet) use($schedules) {
-                $sheet->fromArray($schedules);
-            });
-        })->export('csv');
+        // Excel::create('Exam Schedules', function($excel) use($schedules) {
+        //     $excel->sheet('Sheet 1', function($sheet) use($schedules) {
+        //         $sheet->fromArray($schedules);
+        //     });
+        // })->export('csv');
+
+        $pdf = PDF::loadView('reports.exam-schedule', [
+            'schedules' => $schedules
+        ]);
+        return $pdf->stream();
+
+        // return view('reports.exam-schedule', [
+        //         'schedules' => $schedules
+        //     ]);
 
         // return $schedules;
     }
@@ -72,22 +82,29 @@ class FileController extends Controller
     {
         $activities = Activity::get();
 
-        $activities = collect($activities)->map(function ($value) {
-            return [
-                'Name' => $value->name,
-                'Date From' => $value->date_from,
-                'Date To' => $value->date_t,
-                'Description' => $value->description
-            ];
-        });
+        // $activities = collect($activities)->map(function ($value) {
+        //     return [
+        //         'Name' => $value->name,
+        //         'Date From' => $value->date_from,
+        //         'Date To' => $value->date_t,
+        //         'Description' => $value->description
+        //     ];
+        // });
 
-        Excel::create('Activities', function($excel) use($activities) {
-            $excel->sheet('Sheet 1', function($sheet) use($activities) {
-                $sheet->fromArray($activities);
-            });
-        })->export('csv');
+        // Excel::create('Activities', function($excel) use($activities) {
+        //     $excel->sheet('Sheet 1', function($sheet) use($activities) {
+        //         $sheet->fromArray($activities);
+        //     });
+        // })->export('csv');
 
-        // return $activities;
+        $pdf = PDF::loadView('reports.activities', [
+            'activities' => $activities
+        ]);
+        return $pdf->stream();
+
+        // return view('reports.activities', [
+        //     'activities' => $activities
+        // ]);
     }
 
     public function importStudents(Request $request)
@@ -141,6 +158,7 @@ class FileController extends Controller
                             'gender' => 'Male',
                             // for user account
                             'email' => removeSpaces(strtolower($student->teacherfname . $student->teaherlname))  . '@gmail.com',
+                            'username' => strtolower($student->teacherfname . $student->teaherlname),
                             'password' => bcrypt('test123'),
                             'role' => 'instructor',
                             'active' => true
@@ -180,6 +198,7 @@ class FileController extends Controller
                                 'year_level' => optional($student)->yearlevel,
                                 // for user account
                                 'email' => $studentEmail,
+                                'username' => strtolower($student->firstname . $student->lastname),
                                 'password' => bcrypt('test123'),
                                 'role' => 'student',
                                 'active' => true

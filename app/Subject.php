@@ -24,4 +24,9 @@ class Subject extends Model
     {
         return $this->belongsTo(Room::class, 'room_id', 'id');
     }
+
+    public function instructor()
+    {
+        return $this->belongsTo(User::class, 'instructor_id', 'id');
+    }
 }

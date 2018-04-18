@@ -11,7 +11,7 @@
         hide-details
         v-model="search"
       ></v-text-field>
-      <a :href="baseUrl + '/api/file/download/activities'">
+      <a :href="baseUrl + '/api/file/download/activities'" target="_blank">
       <v-btn flat icon color="primary">
               <v-icon>print</v-icon>
       </v-btn>
@@ -21,12 +21,14 @@
       :headers="headers"
       :items="items"
       :search="search"
+      :disable-initial-sort="true"
     >
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.date_from }}</td>
         <td>{{ props.item.date_to }}</td>
         <td>{{ props.item.description }}</td>
+        <td>{{ props.item.venue }}</td>
         <td style="width:162px;">
             <v-btn @click="showForm('edit', props.item)" flat icon color="primary">
               <v-icon>create</v-icon>
@@ -127,9 +129,16 @@
                   <v-text-field
                     v-model="description"
                     name="input-1"
-                    label="Description"
+                    label="Person Involved"
                     :multi-line="true"
                     id="testing"
+                  ></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                  <v-text-field
+                    v-model="venue"
+                    name="input-1"
+                    label="Venue"
                   ></v-text-field>
               </v-flex>
             </v-layout>
@@ -184,7 +193,8 @@
           { text: 'Name', value: 'name' },
           { text: 'Date From', value: 'date_from' },
           { text: 'Date To', value: 'date_to' },
-          { text: 'Description', value: 'description' },
+          { text: 'Person Involved', value: 'description' },
+          { text: 'Venue', value: 'venue' },
           { text: '', value: '' },
         ],
         items: [],
@@ -202,6 +212,7 @@
         deleteModal: false,
         mode: 'add',
         activityId: '',
+        venue: '',
         baseUrl: document.head.querySelector('meta[name="base-url"]').content
       }
     },
@@ -218,6 +229,7 @@
            this.description = data.description
            this.activityId = data.id
            this.dialog = true
+           this.venue = data.venue
          } else {
            this.mode = 'add'
            this.resetForm()
@@ -262,7 +274,8 @@
             date_from: this.dateFrom,
             date_to: this.dateTo,
             course_id: '',
-            description: this.description
+            description: this.description,
+            venue: this.venue
           }
           const response = await axios.post('/api/activity', formData)
           this.dialog = false
@@ -286,6 +299,7 @@
             date_to: this.dateTo,
             course_id: '',
             description: this.description,
+            venue: this.venue,
             _method: 'put'
           }
           const response = await axios.post('/api/activity/' + this.activityId, formData)
@@ -307,6 +321,7 @@
         this.dateTo = ''
         this.description = ''
         this.activityId = ''
+        this.venue = ''
       }
     }
   }

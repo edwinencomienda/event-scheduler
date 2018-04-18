@@ -11,7 +11,9 @@ import VueRouter from 'vue-router'
 import { router } from './routes'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
- 
+import Vue2Filters from 'vue2-filters'
+
+Vue.use(Vue2Filters) 
 Vue.use(Vuetify)
 Vue.use(VueRouter)
 

@@ -27,7 +27,8 @@ class User extends Authenticatable
         'role',
         'status',
         'student_id',
-        'instructor_id'
+        'instructor_id',
+        'username'
     ];
 
     protected $appends = ['exam_schedules'];

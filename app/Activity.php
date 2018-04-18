@@ -12,6 +12,7 @@ class Activity extends Model
         'date_from',
         'date_to',
         'course_id',
-        'description'
+        'description',
+        'venue'
     ];
 }

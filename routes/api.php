@@ -34,6 +34,7 @@ Route::apiResource('user', 'UserController');
 Route::apiResource('make-up-class', 'MakeUpClassController');
 Route::apiResource('activity', 'ActivityController');
 Route::apiResource('room', 'RoomController');
+Route::get('test', 'FileController@downloadExamSchedules');
 
 Route::group(['prefix' => 'file'], function () {
     Route::get('download/exam-schedules', 'FileController@downloadExamSchedules');

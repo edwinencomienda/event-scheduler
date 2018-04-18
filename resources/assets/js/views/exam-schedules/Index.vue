@@ -11,7 +11,7 @@
         hide-details
         v-model="search"
       ></v-text-field>
-      <a :href="baseUrl + '/api/file/download/exam-schedules'">
+      <a :href="baseUrl + '/api/file/download/exam-schedules'" target="_blank">
       <v-btn flat icon color="primary">
               <v-icon>print</v-icon>
       </v-btn>
@@ -300,7 +300,7 @@
             time_end: this.timeEnd,
             date: this.date,
             room_id: this.roomId,
-            section_id: this.subjectId
+            section_id: this.sectionId
           }
           const response = await axios.post('/api/exam-schedule', formData)
           this.subjectId = ''
