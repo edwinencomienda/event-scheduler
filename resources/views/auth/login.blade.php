@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>
                 <div class="card-body">
@@ -11,7 +11,7 @@
                         @csrf
                         <div class="row mb-5">
                             <div class="col-md-12 text-center">
-                                <img src="/dnsclogo.png" alt="">
+                                <img src="/dnsclogo.png" alt="" style="max-width: 196px;">
                             </div>
                         </div>
                         <div class="form-group row">

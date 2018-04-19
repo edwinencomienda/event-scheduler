@@ -23,11 +23,20 @@
 </head>
 <body>
     <div id="app">
+        <div class="container">
+                <center>
+                        <div>
+                                <a class="navbar-brand text-center" href="{{ url('/') }}">
+                                    <img src="/app_logo.png" style="
+                                    border-radius: 4px;
+                                    width: 100%;
+                                    border-radius: 4px;">
+                                </a>
+                        </div>
+                </center>
+        </div>
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    Event Scheduler
-                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -68,7 +77,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4" style="    margin-top: -145px;">
             @yield('content')
         </main>
     </div>
