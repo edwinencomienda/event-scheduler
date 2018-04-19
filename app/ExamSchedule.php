@@ -13,7 +13,11 @@ class ExamSchedule extends Model
         'time_end',
         'proctor_id',
         'room_id',
-        'section_id'
+        'section_id',
+        'term',
+        'day',
+        'school_year',
+        'semester'
     ];
 
     public function subject()

@@ -22,7 +22,19 @@ class ExamScheduleController extends Controller
             'proctor',
             'room',
             'section'
-        ])->get();
+        ]);
+        
+        if ($request->has('subject_id')) {
+            $examSchedules->where('subject_id', $request->get('subject_id'));
+        }
+        if ($request->has('proctor_id')) {
+            $examSchedules->where('proctor_id', $request->get('proctor_id'));
+        }
+        if ($request->has('section_id')) {
+            $examSchedules->where('section_id', $request->get('section_id'));
+        }
+
+        $examSchedules = $examSchedules->get();
         return response()->json($examSchedules);
     }
 
@@ -39,7 +51,11 @@ class ExamScheduleController extends Controller
             'date' => 'required|date',
             'time_start' => 'required|date_format:H:i',
             'time_end' => 'required|date_format:H:i',
-            'proctor_id' => 'required|exists:users,id'
+            'proctor_id' => 'required|exists:users,id',
+            'term' => 'required',
+            'day' => 'required',
+            'school_year' => 'required',
+            'semester' => 'semester'
         ]);
         
         $examSchedule->update($request->all());

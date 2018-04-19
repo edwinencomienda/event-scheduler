@@ -36,18 +36,22 @@ table.table-content th {
     max-width: 153px;
     margin-left: 8%;">
 
+    <?php 
+        $schedule = $schedules[0];
+    ?>
+
     <center>
         <p>Republic of the Philippines</p>
         <h4>DAVAO DEL NORTE STATE COLLEGE</h4>
         <p>New Visayas, Panabo City</p>
-        <h4>Day - 5 MARCH 1, 1996</h4>
+        <h4>Day - {{ $schedule->day }} {{ date('F d, Y', strtotime($schedule->date)) }}</h4>
     </center>
 
     <hr>
 
     <center>
-        <h4>MIDTERM EXAMNINATION SCHEDULE</h4>
-        <h4>Day - 5 MARCH 1, 1996</h4>
+        <h4>{{ $schedule->term }} EXAMNINATION SCHEDULE</h4>
+        <h4>Day - {{ $schedule->day }} {{ date('F d, Y', strtotime($schedule->date)) }}</h4>
     </center>
 
     <table style="width:100%;" class="table-content">

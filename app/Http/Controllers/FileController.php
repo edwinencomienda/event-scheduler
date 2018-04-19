@@ -39,15 +39,26 @@ class FileController extends Controller
         return Excel::download(new UsersExport($users), 'invoices.csv');
     }
 
-    public function downloadExamSchedules()
+    public function downloadExamSchedules(Request $request)
     {
+        if (!($request->filled('school_year') && $request->filled('term') && $request->filled('day') && $request->filled('semester'))) {
+            abort(404);
+        }
         $schedules = ExamSchedule::with([
             'subject.instructor',
             'proctor',
             'room',
             'section'
         ])
+        ->where('school_year', $request->get('school_year'))
+        ->where('term', $request->get('term'))
+        ->where('semester', $request->get('semester'))
+        ->where('day', $request->get('day'))
         ->get();
+
+        if (count($schedules) < 1) {
+            abort(404);      
+        }
 
         // $schedules = collect($schedules)->map(function ($value) {
         //     return [

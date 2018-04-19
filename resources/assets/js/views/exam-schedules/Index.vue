@@ -2,20 +2,60 @@
 <div style="width:100%;">
   <v-card>
     <v-card-title>
-      Exam Schedules
-      <v-spacer></v-spacer>
-      <v-text-field
-        append-icon="search"
-        label="Search"
-        single-line
-        hide-details
-        v-model="search"
-      ></v-text-field>
-      <a :href="baseUrl + '/api/file/download/exam-schedules'" target="_blank">
-      <v-btn flat icon color="primary">
-              <v-icon>print</v-icon>
-      </v-btn>
-      </a>
+      <v-layout row wrap>
+          <v-flex 12>
+              Exam Schedules
+          </v-flex>
+      </v-layout>
+      <v-layout wrap>
+          <v-flex xs4>
+            <v-select
+              :items="sections"
+              label="Select Section"
+              item-text="code"
+              item-value="id"
+              autocomplete
+              v-model="sectionFilter"
+            ></v-select>
+          </v-flex>
+          <v-flex xs4>
+            <v-select
+              :items="users"
+              label="Select Proctor"
+              item-text="name"
+              item-value="id"
+              autocomplete
+              v-model="proctorFilter"
+            ></v-select>
+          </v-flex>
+          <v-flex xs4>
+            <v-select
+              :items="subjects"
+              label="Select Subject"
+              item-text="code"
+              item-value="id"
+              autocomplete
+              v-model="subjectFilter"
+            ></v-select>
+          </v-flex>
+          <v-flex xs4>
+            <v-text-field
+              append-icon="search"
+              label="Search"
+              single-line
+              hide-details
+              v-model="search"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs2>
+            <a :href="printQuery" target="_blank" ref="print"></a>
+            <a @click="printDialog = true" href="javascript:void(0)">
+            <v-btn flat icon color="primary">
+                    <v-icon>print</v-icon>
+            </v-btn>
+            </a>
+          </v-flex>
+      </v-layout>
     </v-card-title>
     <v-data-table
       :headers="headers"
@@ -163,6 +203,40 @@
                   :items="users"
                 ></v-select>
               </v-flex>
+              <v-flex xs12>
+                <v-text-field
+                  label="School Year"
+                  v-model="school_year"
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-select
+                  label="Semester"
+                  required
+                  autocomplete
+                  item-text="name"
+                  item-value="id"
+                  v-model="semester"
+                  :items="['FIRST SEMESTER', 'SECOND SEMESTER']"
+                ></v-select>
+              </v-flex>
+              <v-flex xs12>
+                <v-select
+                  label="Term"
+                  required
+                  autocomplete
+                  item-text="name"
+                  item-value="id"
+                  v-model="term"
+                  :items="['MIDTERM', 'FINAL TERM']"
+                ></v-select>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field
+                  label="Day"
+                  v-model="day"
+                ></v-text-field>
+              </v-flex>
             </v-layout>
           </v-container>
           <small>*indicates required field</small>
@@ -190,6 +264,56 @@
         <v-icon>close</v-icon>
       </v-btn>
     </v-fab-transition>
+
+
+    <v-dialog v-model="printDialog" max-width="290">
+      <v-card>
+        <v-card-title class="headline">Print Schedule</v-card-title>
+        <v-container grid-list-md>
+        <v-layout row wrap>
+          <v-flex 12>
+            <v-text-field
+              label="School Year"
+              v-model="school_year"
+            ></v-text-field>
+          </v-flex>
+          <v-flex 12>
+              <v-select
+                label="Semester"
+                required
+                autocomplete
+                item-text="name"
+                item-value="id"
+                v-model="semester"
+                :items="['FIRST SEMESTER', 'SECOND SEMESTER']"
+              ></v-select>
+          </v-flex>
+          <v-flex 12>
+              <v-select
+                label="Term"
+                required
+                autocomplete
+                item-text="name"
+                item-value="id"
+                v-model="term"
+                :items="['MIDTERM', 'FINAL TERM']"
+              ></v-select>
+          </v-flex>
+          <v-flex 12>
+            <v-text-field
+              label="Day"
+              v-model="day"
+            ></v-text-field>
+          </v-flex>
+        </v-layout>
+        </v-container>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" flat="flat" @click.native="printDialog = false">Cancel</v-btn>
+          <v-btn color="primary" flat="flat" @click.native="printSchedule">Print</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
 
     <v-snackbar
@@ -240,7 +364,29 @@
         snackbarColor: '',
         snackbarText: '',
         sectionId: '',
-        baseUrl: document.head.querySelector('meta[name="base-url"]').content
+        baseUrl: document.head.querySelector('meta[name="base-url"]').content,
+        tableFilter: '',
+        roomFilter: '',
+        proctorFilter: '',
+        subjectFilter: '',
+        sectionFilter: '',
+        term: '',
+        day: '',
+        semester: '',
+        school_year: '',
+        printDialog: false,
+        printQuery: ''
+      }
+    },
+    watch: {
+      sectionFilter () {
+        this.getItems()
+      },
+      proctorFilter () {
+        this.getItems()
+      },
+      subjectFilter () {
+        this.getItems()
       }
     },
     created () {
@@ -253,7 +399,15 @@
     methods: {
       async getItems () {
         try {
-          const response = await axios.get('/api/exam-schedule')
+          const section_id = this.sectionFilter ? 'section_id=' + this.sectionFilter : ''
+          const proctor_id = this.proctorFilter ? 'proctor_id=' + this.proctorFilter : ''
+          const subject_id = this.subjectFilter ? 'subject_id=' + this.subjectFilter : ''
+          const filters = toQueryFilter([
+            section_id,
+            proctor_id,
+            subject_id
+          ])
+          const response = await axios.get('/api/exam-schedule' + filters)
           this.items = response.data
         } catch (error) {
           // fails
@@ -300,7 +454,11 @@
             time_end: this.timeEnd,
             date: this.date,
             room_id: this.roomId,
-            section_id: this.sectionId
+            section_id: this.sectionId,
+            term: this.term,
+            day: this.day,
+            school_year: this.school_year,
+            semester: this.semester
           }
           const response = await axios.post('/api/exam-schedule', formData)
           this.subjectId = ''
@@ -311,6 +469,10 @@
           this.roomId = ''
           this.subjectId = ''
           this.dialog = false
+          this.term = ''
+          this.day = ''
+          this.school_year = ''
+          this.semester = ''
           this.snackbarText = 'Exam Schedule Successfully Created.'
           this.snackbarColor = 'success'
           this.snackbar = true
@@ -320,6 +482,20 @@
           this.snackbarColor = 'error'
           this.snackbar = true
         }
+      },
+      printSchedule () {
+        this.printQuery = this.baseUrl + '/api/file/download/exam-schedules?school_year=' + 
+        this.school_year + 
+        '&term=' + this.term +
+        '&day=' + this.day +
+        '&semester=' + this.semester
+        setTimeout(() => {
+          this.$refs.print.click()
+        }, 100)
+        this.school_year = ''
+        // this.term = ''
+        // this.day = ''
+        // this.semester = ''
       }
     }
   }
