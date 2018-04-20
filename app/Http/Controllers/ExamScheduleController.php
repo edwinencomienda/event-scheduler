@@ -23,16 +23,35 @@ class ExamScheduleController extends Controller
             'room',
             'section'
         ]);
+
+        if ($request->has('search_by')) {
+            $search = $request->get('search');
+            if ($request->get('search_by') == 'section') {
+                $examSchedules->whereHas('section', function ($query) use ($search) {
+                    $query->where('code', 'like', '%'.$search.'%');
+                });
+            }
+            if ($request->get('search_by') == 'proctor') {
+                $examSchedules->whereHas('proctor', function ($query) use ($search) {
+                    $query->where('name', 'like', '%'.$search.'%');
+                });
+            }
+            if ($request->get('search_by') == 'subject') {
+                $examSchedules->whereHas('subject', function ($query) use ($search) {
+                    $query->where('code', 'like','%'.$search.'%');
+                });
+            }
+        }
         
-        if ($request->has('subject_id')) {
-            $examSchedules->where('subject_id', $request->get('subject_id'));
-        }
-        if ($request->has('proctor_id')) {
-            $examSchedules->where('proctor_id', $request->get('proctor_id'));
-        }
-        if ($request->has('section_id')) {
-            $examSchedules->where('section_id', $request->get('section_id'));
-        }
+        // if ($request->has('subject_id')) {
+        //     $examSchedules->where('subject_id', $request->get('subject_id'));
+        // }
+        // if ($request->has('proctor_id')) {
+        //     $examSchedules->where('proctor_id', $request->get('proctor_id'));
+        // }
+        // if ($request->has('section_id')) {
+        //     $examSchedules->where('section_id', $request->get('section_id'));
+        // }
 
         $examSchedules = $examSchedules->get();
         return response()->json($examSchedules);

@@ -55668,26 +55668,12 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       search: '',
-      headers: [{ text: 'Subject Code', value: 'subject.code' }, { text: 'Subject Description', value: 'subject.description' }, { text: 'Date', value: 'date' }, { text: 'Time Start', value: 'time_start' }, { text: 'Time End', value: 'time_end' }, { text: 'Section', value: 'section.code' }],
+      headers: [{ text: 'Subject Code', value: 'subject.code' }, { text: 'Subject Description', value: 'subject.description' }, { text: 'Date', value: 'date' }, { text: 'Time Start', value: 'time_start' }, { text: 'Time End', value: 'time_end' }, { text: 'Section', value: 'section.code' }, { text: 'Proctor', value: 'proctor.name' }, { text: 'Room ', value: 'room.name' }],
       items: [],
       dialog: false,
       users: [],
@@ -55719,7 +55705,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
       semester: '',
       school_year: '',
       printDialog: false,
-      printQuery: ''
+      printQuery: '',
+      query: '',
+      searchBy: ''
     };
   },
 
@@ -55730,7 +55718,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     proctorFilter: function proctorFilter() {
       this.getItems();
     },
-    subjectFilter: function subjectFilter() {
+    query: function query() {
       this.getItems();
     }
   },
@@ -55745,36 +55733,34 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
   methods: {
     getItems: function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
-        var section_id, proctor_id, subject_id, filters, response;
+        var search, searchBy, response;
         return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
-                section_id = this.sectionFilter ? 'section_id=' + this.sectionFilter : '';
-                proctor_id = this.proctorFilter ? 'proctor_id=' + this.proctorFilter : '';
-                subject_id = this.subjectFilter ? 'subject_id=' + this.subjectFilter : '';
-                filters = toQueryFilter([section_id, proctor_id, subject_id]);
-                _context.next = 7;
-                return axios.get('/api/exam-schedule' + filters);
+                search = this.query ? '?search=' + this.query : '';
+                searchBy = this.searchBy && this.query ? '&search_by=' + this.searchBy : '';
+                _context.next = 5;
+                return axios.get('/api/exam-schedule' + search + searchBy);
 
-              case 7:
+              case 5:
                 response = _context.sent;
 
                 this.items = response.data;
-                _context.next = 13;
+                _context.next = 11;
                 break;
 
-              case 11:
-                _context.prev = 11;
+              case 9:
+                _context.prev = 9;
                 _context.t0 = _context['catch'](0);
 
-              case 13:
+              case 11:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[0, 11]]);
+        }, _callee, this, [[0, 9]]);
       }));
 
       function getItems() {
@@ -56049,66 +56035,22 @@ var render = function() {
                     [
                       _c("v-select", {
                         attrs: {
-                          items: _vm.sections,
-                          label: "Select Section",
-                          "item-text": "code",
-                          "item-value": "id",
-                          autocomplete: ""
-                        },
-                        model: {
-                          value: _vm.sectionFilter,
-                          callback: function($$v) {
-                            _vm.sectionFilter = $$v
-                          },
-                          expression: "sectionFilter"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-flex",
-                    { attrs: { xs4: "" } },
-                    [
-                      _c("v-select", {
-                        attrs: {
-                          items: _vm.users,
-                          label: "Select Proctor",
+                          items: [
+                            { name: "Subject", value: "subject" },
+                            { name: "Section", value: "section" },
+                            { name: "Proctor", value: "proctor" }
+                          ],
+                          label: "Search By",
                           "item-text": "name",
-                          "item-value": "id",
+                          "item-value": "value",
                           autocomplete: ""
                         },
                         model: {
-                          value: _vm.proctorFilter,
+                          value: _vm.searchBy,
                           callback: function($$v) {
-                            _vm.proctorFilter = $$v
+                            _vm.searchBy = $$v
                           },
-                          expression: "proctorFilter"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-flex",
-                    { attrs: { xs4: "" } },
-                    [
-                      _c("v-select", {
-                        attrs: {
-                          items: _vm.subjects,
-                          label: "Select Subject",
-                          "item-text": "code",
-                          "item-value": "id",
-                          autocomplete: ""
-                        },
-                        model: {
-                          value: _vm.subjectFilter,
-                          callback: function($$v) {
-                            _vm.subjectFilter = $$v
-                          },
-                          expression: "subjectFilter"
+                          expression: "searchBy"
                         }
                       })
                     ],
@@ -56127,11 +56069,11 @@ var render = function() {
                           "hide-details": ""
                         },
                         model: {
-                          value: _vm.search,
+                          value: _vm.query,
                           callback: function($$v) {
-                            _vm.search = $$v
+                            _vm.query = $$v
                           },
-                          expression: "search"
+                          expression: "query"
                         }
                       })
                     ],
@@ -56205,6 +56147,16 @@ var render = function() {
                         _vm._v(
                           _vm._s(props.item.section && props.item.section.code)
                         )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(props.item.proctor && props.item.proctor.name)
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(_vm._s(props.item.room && props.item.room.name))
                       ])
                     ]
                   }

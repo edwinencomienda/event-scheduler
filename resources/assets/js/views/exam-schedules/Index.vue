@@ -10,32 +10,16 @@
       <v-layout wrap>
           <v-flex xs4>
             <v-select
-              :items="sections"
-              label="Select Section"
-              item-text="code"
-              item-value="id"
-              autocomplete
-              v-model="sectionFilter"
-            ></v-select>
-          </v-flex>
-          <v-flex xs4>
-            <v-select
-              :items="users"
-              label="Select Proctor"
+              :items="[
+                { name: 'Subject', value: 'subject' },
+                { name: 'Section', value: 'section' },
+                { name: 'Proctor', value: 'proctor' }
+              ]"
+              label="Search By"
               item-text="name"
-              item-value="id"
+              item-value="value"
               autocomplete
-              v-model="proctorFilter"
-            ></v-select>
-          </v-flex>
-          <v-flex xs4>
-            <v-select
-              :items="subjects"
-              label="Select Subject"
-              item-text="code"
-              item-value="id"
-              autocomplete
-              v-model="subjectFilter"
+              v-model="searchBy"
             ></v-select>
           </v-flex>
           <v-flex xs4>
@@ -44,7 +28,7 @@
               label="Search"
               single-line
               hide-details
-              v-model="search"
+              v-model="query"
             ></v-text-field>
           </v-flex>
           <v-flex xs2>
@@ -69,6 +53,8 @@
         <td>{{ props.item.time_start }}</td>
         <td>{{ props.item.time_end }}</td>
         <td>{{ props.item.section && props.item.section.code }}</td>
+        <td>{{ props.item.proctor && props.item.proctor.name }}</td>
+        <td>{{ props.item.room && props.item.room.name }}</td>
       </template>
       <v-alert slot="no-results" :value="true" color="error" icon="warning">
         Your search for "{{ search }}" found no results.
@@ -342,7 +328,9 @@
           { text: 'Date', value: 'date' },
           { text: 'Time Start', value: 'time_start' },
           { text: 'Time End', value: 'time_end' },
-          { text: 'Section', value: 'section.code' }
+          { text: 'Section', value: 'section.code' },
+          { text: 'Proctor', value: 'proctor.name' },
+          { text: 'Room ', value: 'room.name' }
         ],
         items: [],
         dialog: false,
@@ -375,7 +363,9 @@
         semester: '',
         school_year: '',
         printDialog: false,
-        printQuery: ''
+        printQuery: '',
+        query: '',
+        searchBy: ''
       }
     },
     watch: {
@@ -385,7 +375,7 @@
       proctorFilter () {
         this.getItems()
       },
-      subjectFilter () {
+      query () {
         this.getItems()
       }
     },
@@ -399,15 +389,9 @@
     methods: {
       async getItems () {
         try {
-          const section_id = this.sectionFilter ? 'section_id=' + this.sectionFilter : ''
-          const proctor_id = this.proctorFilter ? 'proctor_id=' + this.proctorFilter : ''
-          const subject_id = this.subjectFilter ? 'subject_id=' + this.subjectFilter : ''
-          const filters = toQueryFilter([
-            section_id,
-            proctor_id,
-            subject_id
-          ])
-          const response = await axios.get('/api/exam-schedule' + filters)
+          const search = this.query ? '?search=' + this.query : ''
+          const searchBy = this.searchBy && this.query ? '&search_by=' + this.searchBy : ''
+          const response = await axios.get('/api/exam-schedule' + search + searchBy)
           this.items = response.data
         } catch (error) {
           // fails
