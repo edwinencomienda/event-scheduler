@@ -31,7 +31,9 @@ class ActivityController extends Controller
             'date_from' => 'required|date',
             'date_to' => 'required|date',
             'course_id' => 'nullable|exists:courses,id',
-            'venue' => 'required|string'
+            'venue' => 'required|string',
+            'time_start' => 'required|date_format:H:i',
+            'time_end' => 'required|date_format:H:i'
         ]);
         
         $activity = $this->activity->firstOrCreate($request->all());
@@ -46,7 +48,9 @@ class ActivityController extends Controller
             'date_from' => 'required|date',
             'date_to' => 'required|date',
             'course_id' => 'nullable|exists:courses,id',
-            'venue' => 'required|string'
+            'venue' => 'required|string',
+            'time_start' => 'required|date_format:H:i',
+            'time_end' => 'required|date_format:H:i'
         ]);
         
         $activity->update($request->all());

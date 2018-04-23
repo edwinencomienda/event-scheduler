@@ -41,18 +41,15 @@ class ExamScheduleController extends Controller
                     $query->where('code', 'like','%'.$search.'%');
                 });
             }
+            if ($request->get('search_by') == 'room') {
+                $examSchedules->whereHas('room', function ($query) use ($search) {
+                    $query->where('name', 'like','%'.$search.'%');
+                });
+            }
+            if ($request->get('search_by') == 'day') {
+                $examSchedules->where('day', $search);
+            }
         }
-        
-        // if ($request->has('subject_id')) {
-        //     $examSchedules->where('subject_id', $request->get('subject_id'));
-        // }
-        // if ($request->has('proctor_id')) {
-        //     $examSchedules->where('proctor_id', $request->get('proctor_id'));
-        // }
-        // if ($request->has('section_id')) {
-        //     $examSchedules->where('section_id', $request->get('section_id'));
-        // }
-
         $examSchedules = $examSchedules->get();
         return response()->json($examSchedules);
     }

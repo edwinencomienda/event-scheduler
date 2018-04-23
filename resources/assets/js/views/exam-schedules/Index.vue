@@ -13,7 +13,9 @@
               :items="[
                 { name: 'Subject', value: 'subject' },
                 { name: 'Section', value: 'section' },
-                { name: 'Proctor', value: 'proctor' }
+                { name: 'Proctor', value: 'proctor' },
+                { name: 'Room', value: 'room' },
+                { name: 'Day', value: 'day' }
               ]"
               label="Search By"
               item-text="name"
@@ -49,7 +51,7 @@
       <template slot="items" slot-scope="props">
         <td>{{ props.item.subject && props.item.subject.code }}</td>
         <td>{{ props.item.subject.description }}</td>
-        <td>{{ props.item.date }}</td>
+        <td>{{ props.item.day }}</td>
         <td>{{ props.item.time_start }}</td>
         <td>{{ props.item.time_end }}</td>
         <td>{{ props.item.section && props.item.section.code }}</td>
@@ -325,7 +327,7 @@
         headers: [
           { text: 'Subject Code', value: 'subject.code' },
           { text: 'Subject Description', value: 'subject.description' },
-          { text: 'Date', value: 'date' },
+          { text: 'Day', value: 'day' },
           { text: 'Time Start', value: 'time_start' },
           { text: 'Time End', value: 'time_end' },
           { text: 'Section', value: 'section.code' },

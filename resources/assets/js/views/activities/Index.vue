@@ -141,6 +141,54 @@
                     label="Venue"
                   ></v-text-field>
               </v-flex>
+              <v-flex xs6>
+                        <v-menu
+                          ref="menu1"
+                          lazy
+                          :close-on-content-click="false"
+                          v-model="menu1"
+                          transition="scale-transition"
+                          offset-y
+                          full-width
+                          :nudge-right="40"
+                          max-width="290px"
+                          min-width="290px"
+                          :return-value.sync="time_start"
+                        >
+                          <v-text-field
+                            slot="activator"
+                            label="Time Start"
+                            v-model="time_start"
+                            prepend-icon="access_time"
+                            readonly
+                          ></v-text-field>
+                          <v-time-picker v-model="time_start" @change="$refs.menu1.save(time_start)"></v-time-picker>
+                        </v-menu>
+              </v-flex>
+              <v-flex xs6>
+                        <v-menu
+                          ref="menu2"
+                          lazy
+                          :close-on-content-click="false"
+                          v-model="menu2"
+                          transition="scale-transition"
+                          offset-y
+                          full-width
+                          :nudge-right="40"
+                          max-width="290px"
+                          min-width="290px"
+                          :return-value.sync="time_end"
+                        >
+                          <v-text-field
+                            slot="activator"
+                            label="Time Start"
+                            v-model="time_end"
+                            prepend-icon="access_time"
+                            readonly
+                          ></v-text-field>
+                          <v-time-picker v-model="time_end" @change="$refs.menu2.save(time_end)"></v-time-picker>
+                        </v-menu>
+              </v-flex>
             </v-layout>
           </v-container>
           <small>*indicates required field</small>
@@ -213,7 +261,11 @@
         mode: 'add',
         activityId: '',
         venue: '',
-        baseUrl: document.head.querySelector('meta[name="base-url"]').content
+        baseUrl: document.head.querySelector('meta[name="base-url"]').content,
+        menu1: false,
+        menu2: false,
+        time_start: null,
+        time_end: null
       }
     },
     created () {
@@ -230,6 +282,8 @@
            this.activityId = data.id
            this.dialog = true
            this.venue = data.venue
+           this.time_start = data.time_start
+           this.time_end = data.time_end
          } else {
            this.mode = 'add'
            this.resetForm()
@@ -275,7 +329,9 @@
             date_to: this.dateTo,
             course_id: '',
             description: this.description,
-            venue: this.venue
+            venue: this.venue,
+            time_start: this.time_start,
+            time_end: this.time_end
           }
           const response = await axios.post('/api/activity', formData)
           this.dialog = false
@@ -300,6 +356,8 @@
             course_id: '',
             description: this.description,
             venue: this.venue,
+            time_start: this.time_start,
+            time_end: this.time_end,
             _method: 'put'
           }
           const response = await axios.post('/api/activity/' + this.activityId, formData)
@@ -322,6 +380,8 @@
         this.description = ''
         this.activityId = ''
         this.venue = ''
+        this.timeStart = ''
+        this.timeEnd = ''
       }
     }
   }

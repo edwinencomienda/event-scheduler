@@ -54404,6 +54404,54 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -54426,7 +54474,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
       mode: 'add',
       activityId: '',
       venue: '',
-      baseUrl: document.head.querySelector('meta[name="base-url"]').content
+      baseUrl: document.head.querySelector('meta[name="base-url"]').content,
+      menu1: false,
+      menu2: false,
+      time_start: null,
+      time_end: null
     };
   },
   created: function created() {
@@ -54446,6 +54498,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         this.activityId = data.id;
         this.dialog = true;
         this.venue = data.venue;
+        this.time_start = data.time_start;
+        this.time_end = data.time_end;
       } else {
         this.mode = 'add';
         this.resetForm();
@@ -54553,7 +54607,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                   date_to: this.dateTo,
                   course_id: '',
                   description: this.description,
-                  venue: this.venue
+                  venue: this.venue,
+                  time_start: this.time_start,
+                  time_end: this.time_end
                 };
                 _context3.next = 4;
                 return axios.post('/api/activity', formData);
@@ -54608,6 +54664,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                   course_id: '',
                   description: this.description,
                   venue: this.venue,
+                  time_start: this.time_start,
+                  time_end: this.time_end,
                   _method: 'put'
                 };
                 _context4.next = 4;
@@ -54654,6 +54712,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
       this.description = '';
       this.activityId = '';
       this.venue = '';
+      this.timeStart = '';
+      this.timeEnd = '';
     }
   }
 });
@@ -55167,6 +55227,148 @@ var render = function() {
                               })
                             ],
                             1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs6: "" } },
+                            [
+                              _c(
+                                "v-menu",
+                                {
+                                  ref: "menu1",
+                                  attrs: {
+                                    lazy: "",
+                                    "close-on-content-click": false,
+                                    transition: "scale-transition",
+                                    "offset-y": "",
+                                    "full-width": "",
+                                    "nudge-right": 40,
+                                    "max-width": "290px",
+                                    "min-width": "290px",
+                                    "return-value": _vm.time_start
+                                  },
+                                  on: {
+                                    "update:returnValue": function($event) {
+                                      _vm.time_start = $event
+                                    }
+                                  },
+                                  model: {
+                                    value: _vm.menu1,
+                                    callback: function($$v) {
+                                      _vm.menu1 = $$v
+                                    },
+                                    expression: "menu1"
+                                  }
+                                },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      slot: "activator",
+                                      label: "Time Start",
+                                      "prepend-icon": "access_time",
+                                      readonly: ""
+                                    },
+                                    slot: "activator",
+                                    model: {
+                                      value: _vm.time_start,
+                                      callback: function($$v) {
+                                        _vm.time_start = $$v
+                                      },
+                                      expression: "time_start"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-time-picker", {
+                                    on: {
+                                      change: function($event) {
+                                        _vm.$refs.menu1.save(_vm.time_start)
+                                      }
+                                    },
+                                    model: {
+                                      value: _vm.time_start,
+                                      callback: function($$v) {
+                                        _vm.time_start = $$v
+                                      },
+                                      expression: "time_start"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs6: "" } },
+                            [
+                              _c(
+                                "v-menu",
+                                {
+                                  ref: "menu2",
+                                  attrs: {
+                                    lazy: "",
+                                    "close-on-content-click": false,
+                                    transition: "scale-transition",
+                                    "offset-y": "",
+                                    "full-width": "",
+                                    "nudge-right": 40,
+                                    "max-width": "290px",
+                                    "min-width": "290px",
+                                    "return-value": _vm.time_end
+                                  },
+                                  on: {
+                                    "update:returnValue": function($event) {
+                                      _vm.time_end = $event
+                                    }
+                                  },
+                                  model: {
+                                    value: _vm.menu2,
+                                    callback: function($$v) {
+                                      _vm.menu2 = $$v
+                                    },
+                                    expression: "menu2"
+                                  }
+                                },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      slot: "activator",
+                                      label: "Time Start",
+                                      "prepend-icon": "access_time",
+                                      readonly: ""
+                                    },
+                                    slot: "activator",
+                                    model: {
+                                      value: _vm.time_end,
+                                      callback: function($$v) {
+                                        _vm.time_end = $$v
+                                      },
+                                      expression: "time_end"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-time-picker", {
+                                    on: {
+                                      change: function($event) {
+                                        _vm.$refs.menu2.save(_vm.time_end)
+                                      }
+                                    },
+                                    model: {
+                                      value: _vm.time_end,
+                                      callback: function($$v) {
+                                        _vm.time_end = $$v
+                                      },
+                                      expression: "time_end"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
                           )
                         ],
                         1
@@ -55668,12 +55870,14 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       search: '',
-      headers: [{ text: 'Subject Code', value: 'subject.code' }, { text: 'Subject Description', value: 'subject.description' }, { text: 'Date', value: 'date' }, { text: 'Time Start', value: 'time_start' }, { text: 'Time End', value: 'time_end' }, { text: 'Section', value: 'section.code' }, { text: 'Proctor', value: 'proctor.name' }, { text: 'Room ', value: 'room.name' }],
+      headers: [{ text: 'Subject Code', value: 'subject.code' }, { text: 'Subject Description', value: 'subject.description' }, { text: 'Day', value: 'day' }, { text: 'Time Start', value: 'time_start' }, { text: 'Time End', value: 'time_end' }, { text: 'Section', value: 'section.code' }, { text: 'Proctor', value: 'proctor.name' }, { text: 'Room ', value: 'room.name' }],
       items: [],
       dialog: false,
       users: [],
@@ -56038,7 +56242,9 @@ var render = function() {
                           items: [
                             { name: "Subject", value: "subject" },
                             { name: "Section", value: "section" },
-                            { name: "Proctor", value: "proctor" }
+                            { name: "Proctor", value: "proctor" },
+                            { name: "Room", value: "room" },
+                            { name: "Day", value: "day" }
                           ],
                           label: "Search By",
                           "item-text": "name",
@@ -56137,7 +56343,7 @@ var render = function() {
                         _vm._v(_vm._s(props.item.subject.description))
                       ]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(props.item.date))]),
+                      _c("td", [_vm._v(_vm._s(props.item.day))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(props.item.time_start))]),
                       _vm._v(" "),
