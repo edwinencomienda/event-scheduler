@@ -54452,12 +54452,14 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       search: '',
-      headers: [{ text: 'Name', value: 'name' }, { text: 'Date From', value: 'date_from' }, { text: 'Date To', value: 'date_to' }, { text: 'Person Involved', value: 'description' }, { text: 'Venue', value: 'venue' }, { text: '', value: '' }],
+      headers: [{ text: 'Name', value: 'name' }, { text: 'Date From', value: 'date_from' }, { text: 'Date To', value: 'date_to' }, { text: 'Person Involved', value: 'description' }, { text: 'Venue', value: 'venue' }, { text: 'Time Start', value: 'time_start' }, { text: 'Time End', value: 'time_end' }, { text: '', value: '' }],
       items: [],
       dialog: false,
       dateFrom: '',
@@ -54800,6 +54802,10 @@ var render = function() {
                       _c("td", [_vm._v(_vm._s(props.item.description))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(props.item.venue))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(props.item.time_start))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(props.item.time_end))]),
                       _vm._v(" "),
                       _c(
                         "td",

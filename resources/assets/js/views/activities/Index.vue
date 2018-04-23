@@ -29,6 +29,8 @@
         <td>{{ props.item.date_to }}</td>
         <td>{{ props.item.description }}</td>
         <td>{{ props.item.venue }}</td>
+        <td>{{ props.item.time_start }}</td>
+        <td>{{ props.item.time_end }}</td>
         <td style="width:162px;">
             <v-btn @click="showForm('edit', props.item)" flat icon color="primary">
               <v-icon>create</v-icon>
@@ -243,6 +245,8 @@
           { text: 'Date To', value: 'date_to' },
           { text: 'Person Involved', value: 'description' },
           { text: 'Venue', value: 'venue' },
+          { text: 'Time Start', value: 'time_start' },
+          { text: 'Time End', value: 'time_end' },
           { text: '', value: '' },
         ],
         items: [],
