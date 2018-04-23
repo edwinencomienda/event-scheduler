@@ -49,6 +49,10 @@ class ExamScheduleController extends Controller
             if ($request->get('search_by') == 'day') {
                 $examSchedules->where('day', $search);
             }
+            if ($request->get('search_by') == 'time') {
+                $examSchedules->where('time_start', 'like','%'.$search.'%')
+                ->orWhere('time_end', 'like','%'.$search.'%');
+            }
         }
         $examSchedules = $examSchedules->get();
         return response()->json($examSchedules);

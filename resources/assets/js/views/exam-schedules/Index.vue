@@ -15,7 +15,8 @@
                 { name: 'Section', value: 'section' },
                 { name: 'Proctor', value: 'proctor' },
                 { name: 'Room', value: 'room' },
-                { name: 'Day', value: 'day' }
+                { name: 'Day', value: 'day' },
+                { name: 'Time', value: 'time' }
               ]"
               label="Search By"
               item-text="name"

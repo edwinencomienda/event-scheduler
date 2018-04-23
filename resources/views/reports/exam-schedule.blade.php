@@ -69,7 +69,7 @@ table.table-content th {
         <tbody>
             @foreach($schedules as $schedule)
             <tr>
-                <td class="text-center">{{ $schedule->time_start }}</td>
+                <td class="text-center">{{ $schedule->time_start . '-' . $schedule->time_end }}</td>
                 <td class="text-center">{{ optional($schedule->subject)->code }}</td>
                 <td class="text-center">{{ optional($schedule->section)->code }}</td>
                 <td class="text-center">{{ optional($schedule->subject)->time_start . '-' . optional($schedule->subject)->time_end . ' ' . optional($schedule->subject)->day_code }}</td>

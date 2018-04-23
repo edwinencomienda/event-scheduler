@@ -55879,6 +55879,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -56251,7 +56252,8 @@ var render = function() {
                             { name: "Section", value: "section" },
                             { name: "Proctor", value: "proctor" },
                             { name: "Room", value: "room" },
-                            { name: "Day", value: "day" }
+                            { name: "Day", value: "day" },
+                            { name: "Time", value: "time" }
                           ],
                           label: "Search By",
                           "item-text": "name",
