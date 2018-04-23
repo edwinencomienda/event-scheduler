@@ -54454,6 +54454,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -54730,7 +54731,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticStyle: { width: "100%" } },
+    { staticStyle: { width: "100%", "max-width": "999px" } },
     [
       _c(
         "v-card",

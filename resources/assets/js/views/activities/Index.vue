@@ -1,5 +1,6 @@
 <template>
-<div style="width:100%;">
+<div style="width: 100%;
+    max-width: 999px;" >
   <v-card>
     <v-card-title>
       Activities
